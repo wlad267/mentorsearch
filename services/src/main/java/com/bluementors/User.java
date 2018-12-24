@@ -3,10 +3,7 @@ package com.bluementors;
 import com.bluementors.admin.Admin;
 import com.bluementors.mentor.Mentor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -14,10 +11,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "USERS")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
     @Id
+    @GeneratedValue
     private Long id;
     @Email
+    @NotNull
     private String email;
     @NotNull
     private String authenticationString;
@@ -25,12 +25,18 @@ public class User implements Serializable {
     private Mentor mentor;
     @OneToOne
     private Admin admin;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
     private String contactNo;
+
     private LocalDateTime registrationDate;
     private String registrationCode;
-    private Boolean active;
+
+    private Boolean active = Boolean.TRUE;
+
+    public User(){}
 
     public boolean isMentor(){
         return this.mentor != null;
@@ -131,7 +137,7 @@ public class User implements Serializable {
     public static class Builder{
         private User user;
 
-        Builder(){
+        public Builder(){
             this.user = new User();
         }
 

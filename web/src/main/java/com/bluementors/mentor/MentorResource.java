@@ -1,9 +1,7 @@
 package com.bluementors.mentor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,5 +15,10 @@ public class MentorResource {
     @GetMapping("/all")
     public List<Mentor> all(){
         return mentorService.listMentors();
+    }
+
+    @PostMapping("/register")
+    public Mentor register(Mentor mentor){
+        return this.mentorService.register(mentor);
     }
 }
