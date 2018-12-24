@@ -25,6 +25,7 @@
 	<modules>
 		<module>services</module>
         <module>web</module>
-	</modules>
+        <module>ui</module>
+    </modules>
 
 </project>
