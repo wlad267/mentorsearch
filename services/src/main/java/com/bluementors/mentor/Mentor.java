@@ -1,14 +1,12 @@
 package com.bluementors.mentor;
 
-import com.bluementors.User;
+import com.bluementors.user.User;
 import com.bluementors.training.Skill;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;

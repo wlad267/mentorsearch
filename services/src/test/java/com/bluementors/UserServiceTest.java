@@ -1,6 +1,9 @@
 package com.bluementors;
 
 import com.bluementors.data.UserData;
+import com.bluementors.user.User;
+import com.bluementors.user.UserRepository;
+import com.bluementors.user.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

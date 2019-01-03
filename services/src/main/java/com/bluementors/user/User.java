@@ -1,4 +1,4 @@
-package com.bluementors;
+package com.bluementors.user;
 
 import com.bluementors.admin.Admin;
 import com.bluementors.mentor.Mentor;
@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "USERS")
 @Inheritance(strategy = InheritanceType.JOINED)
+@SequenceGenerator(name="seq", initialValue=10, allocationSize=1000000)
 public class User implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long id;
     @Email
     @NotNull

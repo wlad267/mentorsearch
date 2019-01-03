@@ -4,6 +4,8 @@ import com.bluementors.data.UserData;
 import com.bluementors.mentor.Mentor;
 import com.bluementors.mentor.MentorService;
 import com.bluementors.training.Skill;
+import com.bluementors.user.User;
+import com.bluementors.user.UserService;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
 

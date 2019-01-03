@@ -1,6 +1,6 @@
 package com.bluementors.training;
 
-import com.bluementors.User;
+import com.bluementors.user.User;
 import com.bluementors.mentor.Mentor;
 
 import javax.persistence.*;

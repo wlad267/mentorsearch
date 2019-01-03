@@ -1,6 +1,6 @@
 package com.bluementors.data;
 
-import com.bluementors.User;
+import com.bluementors.user.User;
 
 public class UserData {
 

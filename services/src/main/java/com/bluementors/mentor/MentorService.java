@@ -1,7 +1,7 @@
 package com.bluementors.mentor;
 
-import com.bluementors.User;
-import com.bluementors.UserRepository;
+import com.bluementors.user.User;
+import com.bluementors.user.UserRepository;
 import com.bluementors.exception.BusinessException;
 import com.bluementors.training.Skill;
 import org.springframework.beans.factory.annotation.Autowired;

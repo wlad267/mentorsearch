@@ -1,4 +1,4 @@
-package com.bluementors;
+package com.bluementors.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,6 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
-    //TODO: roles allowed ADMIN
     public User register(User user) {
         return userRepository.save(user);
     }

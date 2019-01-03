@@ -1,6 +1,6 @@
 package com.bluementors.admin;
 
-import com.bluementors.User;
+import com.bluementors.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
