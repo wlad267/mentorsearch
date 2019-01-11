@@ -25,7 +25,7 @@ export class AuthenticationService {
         this.router.navigate(['/home']);
         this.loadingService.unblock();
       },
-        this.handError);
+        error => this.handError(error));
   };
 
   logout() {
@@ -37,7 +37,7 @@ export class AuthenticationService {
       this.loadingService.unblock();
       console.log('succesful logout');
     },
-      this.handError
+      error => this.handError(error)
     );
   }
 

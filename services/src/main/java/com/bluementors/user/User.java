@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "USERS")
 @Inheritance(strategy = InheritanceType.JOINED)
-@SequenceGenerator(name="seq", initialValue=10, allocationSize=1000000)
+@SequenceGenerator(name="user_seq", initialValue=10, allocationSize=1000000)
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
     private Long id;
     @Email
     @NotNull

@@ -1,17 +1,14 @@
-
 <div class="container-fluid">
 
   <div class="row">
-      <button type="button" class="btn btn-link on_right" (click)="logout()">Logout</button>
-      
-      <div class="col_centered">
-          <p-tabMenu class="ui-tabmenu-nav" [model]="items" [activeItem]="items[0]"></p-tabMenu>
-      </div>
-     
-      <router-outlet></router-outlet>
-   
+    <button type="button" class="btn btn-link on_right" (click)="logout()">Logout</button>
+
+    <div class="col_centered">
+      <p-tabMenu class="ui-tabmenu-nav" [model]="items" [activeItem]="items[0]"></p-tabMenu>
+    </div>
+
   </div>
+
+  <router-outlet></router-outlet>
+
 </div>
-
-
-

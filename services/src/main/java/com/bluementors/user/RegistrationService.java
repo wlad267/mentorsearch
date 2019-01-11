@@ -30,7 +30,7 @@ public class RegistrationService {
     @Autowired
     private UserService userService;
 
-    public void startRegistration(RegistrationForm registrationForm,
+    public RegistrationRequest startRegistration(RegistrationForm registrationForm,
                                   String registrationConfirmationUrl,
                                   UUID registrationUuid) {
         logger.info("sending registration to " + registrationForm.getEmail() + " registration confirmation URL:" + registrationConfirmationUrl);
@@ -48,12 +48,12 @@ public class RegistrationService {
 
         RegistrationRequest registrationRequest = new RegistrationRequest(registrationUuid);
         registrationRequest.setRegistrationForm(registrationForm);
-        registrationRequestRepository.save(registrationRequest);
+        return registrationRequestRepository.save(registrationRequest);
 
     }
 
 
-    public void confirmRegistration(UUID uuid) {
+    public RegistrationRequest confirmRegistration(UUID uuid) {
         RegistrationRequest registrationRequest = registrationRequestRepository
                 .findById(uuid)
                 .orElseThrow(() -> new BusinessException("no Such registration request"));
@@ -61,11 +61,12 @@ public class RegistrationService {
         userService.register(new User.Builder().firstName(registrationRequest.getRegistrationForm().getFirstName())
                 .lastName(registrationRequest.getRegistrationForm().getLastName())
                 .email(registrationRequest.getRegistrationForm().getEmail())
-                .authenticationString(DigestUtils.sha256Hex(registrationRequest.getRegistrationForm().getPassword()))
+                .authenticationString(registrationRequest.getRegistrationForm().getPassword())
                 .build()
         );
 
         registrationRequest.setStatus(RegistrationStatus.CONFIRMED);
+        return registrationRequest;
     }
 
     private void sendSimpleMessage(String to, String subject, String text) {

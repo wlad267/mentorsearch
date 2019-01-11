@@ -1,18 +1,17 @@
 package com.bluementors.training;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "SKILLS")
+@SequenceGenerator(name="skill_seq", initialValue=10, allocationSize=1000000)
 public class Skill {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="skill_seq")
     private Long id;
     private String name;
-    private String descriptions;
+    private String description;
+    private boolean active = true;
 
     public Skill(){
     }
@@ -21,7 +20,7 @@ public class Skill {
         this.name = name;
     }
 
-    public Skill(String name, String descriptions){
+    public Skill(String name, String description){
         this.name = name;
     }
 
@@ -41,12 +40,20 @@ public class Skill {
         this.name = name;
     }
 
-    public String getDescriptions() {
-        return descriptions;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
@@ -54,7 +61,8 @@ public class Skill {
         return "Skill{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", descriptions='" + descriptions + '\'' +
+                ", description='" + description + '\'' +
+                ", active=" + active +
                 '}';
     }
 }
