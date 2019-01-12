@@ -1,6 +1,5 @@
 package com.bluementors.security.aa;
 
-import com.bluementors.security.AppRoles;
 import com.bluementors.security.jwt.JwtTokenProvider;
 import com.bluementors.user.User;
 import com.bluementors.user.UserService;
@@ -18,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,7 +38,7 @@ public class AAResource {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Value("${app.jwtName}")
+    @Value("${app.jwtTokenName}")
     private String jwtName;
 
     @PostMapping("login")

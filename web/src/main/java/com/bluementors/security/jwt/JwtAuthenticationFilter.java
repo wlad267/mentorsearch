@@ -1,14 +1,11 @@
 package com.bluementors.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -17,8 +14,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 import static java.util.Objects.isNull;
 
@@ -29,36 +27,48 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @Value("${app.jwtName}")
-    private String jwtName;
+    @Autowired
+    private JwtConfiguration jwtConfiguration;
 
-    @Value("${app.AppAuthSchema}")
-    private String authSchema;
+    private List<Predicate<HttpServletRequest>> permitted = new ArrayList<>();
 
-    @Value("${app.jwtSecret}")
-    private String jwtSecret;
+    public JwtAuthenticationFilter(String[] permitted) {
+        for (String uri : permitted) {
+            this.permitted.add(
+                    (request -> new AntPathRequestMatcher(uri).matches(request)));
+        }
+    }
 
-
+    private boolean isResourcePermitted(HttpServletRequest request) {
+        return permitted.stream().filter(p -> p.test(request)).findFirst().isPresent();
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         logger.info("checking JWT for " + httpServletRequest.getRemoteAddr());
 
+        // 1. if permitted, go to the next filter.
+        if (isResourcePermitted(httpServletRequest)) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
+
         String token = null;
 
-        // 1. check the token coockie
-        for (Cookie cookie: httpServletRequest.getCookies()){
-            if (jwtName.equals(cookie.getName())){
+        // 2. check the token cookie
+        for (Cookie cookie : httpServletRequest.getCookies()) {
+            if (jwtConfiguration.jwtTokenName.equals(cookie.getName())) {
                 token = cookie.getValue();
                 break;
             }
         }
 
-        if (isNull(token)){
-            // 2. if not cookie try to get the authentication header as supposed to be passed in the authentication header
-            String header = httpServletRequest.getHeader(jwtName);
-            // 3. validate the header and check the prefix
-            if(header == null || !header.startsWith(authSchema)) {
+        // 3. if no cookie than maybe header
+        if (isNull(token)) {
+            // 3.1 if not cookie try to get the authentication header as supposed to be passed in the authentication header
+            String header = httpServletRequest.getHeader(jwtConfiguration.jwtTokenName);
+            // 3.2 validate the header and check the prefix
+            if (header == null || !header.startsWith(jwtConfiguration.jwtAuthSchema)) {
 
                 // If there is no token provided and hence the user won't be authenticated.
                 // It's Ok. Maybe the user accessing a public path or asking for a token.
@@ -67,41 +77,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 //if not valid, go to the next filter.
                 return;
             }
-            token = header.replace(authSchema, "");
+            token = header.replace(jwtConfiguration.jwtAuthSchema, "");
         }
 
 
+        // 4. Validate the token
 
-        try {	// exceptions might be thrown in creating the claims if for example the token is expired
+        UsernamePasswordAuthenticationToken auth = tokenProvider.springAuthToken(token);
 
-            // 4. Validate the token
-            Claims claims = Jwts.parser()
-                    .setSigningKey(jwtSecret.getBytes())
-                    .parseClaimsJws(token)
-                    .getBody();
 
-            String username = claims.getSubject();
-            if(username != null) {
-                @SuppressWarnings("unchecked")
-                List<String> authorities = (List<String>) claims.get("authorities");
-
-                // 5. Create auth object
-                // UsernamePasswordAuthenticationToken: A built-in object, used by spring to represent the current authenticated / being authenticated user.
-                // It needs a list of authorities, which has type of GrantedAuthority interface, where SimpleGrantedAuthority is an implementation of that interface
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        username, null, authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-
-                // 6. Authenticate the user
-                // Now, user is authenticated
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
-
-        } catch (Exception e) {
-            logger.info(e.getMessage());
-            // In case of failure. Make sure it's clear; so guarantee user won't be authenticated
-            SecurityContextHolder.clearContext();
-        }
-
+        // 4.2 Authenticate the user
+        // Now, user is authenticated
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

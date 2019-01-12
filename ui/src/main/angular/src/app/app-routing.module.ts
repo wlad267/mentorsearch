@@ -11,12 +11,13 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard],
   children: [
     { path: 'skills', component: SkillsComponent },
-    { path: 'mentors', component: MentorsComponent }
+    { path: 'mentors', component: MentorsComponent },
+    { path: '**', redirectTo: 'skills' }
     ] 
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'home' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

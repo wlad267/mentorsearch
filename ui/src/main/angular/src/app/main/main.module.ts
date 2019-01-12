@@ -10,7 +10,7 @@ import { SkillsComponent } from './home/skills/skills.component';
 import { MentorsComponent } from './home/mentors/mentors.component';
 import { MainRoutesModule } from './main-routes.module';
 import { SkillsService } from './home/skills/skills.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DialogModule} from 'primeng/dialog';
 
 
@@ -20,6 +20,8 @@ import {DialogModule} from 'primeng/dialog';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule, 
+    ReactiveFormsModule,
     TabMenuModule,
     TableModule,
     MainRoutesModule, 

@@ -1,10 +1,13 @@
 package com.bluementors.security;
 
 import com.bluementors.security.jwt.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,24 +17,42 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private String[] permitted = {"/h2/**", "/api/auth/**", "/version", "/**.ico"};
+
+    @Autowired
+    private WebSecurityUserDetailsService webSecurityUserDetailsService;
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests().antMatchers("/").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/h2/**").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/version").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+    public void configure(WebSecurity webSecurity) {
+        webSecurity
+                .ignoring()
+                .antMatchers(permitted);
+    }
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity
+                // we don't need CSRF because our token is invulnerable
+                .csrf().disable()
+                //.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .authorizeRequests()
+                // Un-secure H2 Database
+                .antMatchers(permitted).permitAll()
                 .anyRequest().authenticated();
 
+        httpSecurity
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
-
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        // disable page caching
+        httpSecurity
+                .headers()
+                .frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
+                .cacheControl();
     }
+
+
 
     @Override
     @Bean
@@ -46,10 +67,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(permitted);
     }
 
-//    @Autowired
-//    WebSecurityUserDetailsService customUserDetailsService;
+    @Autowired
+    public void globalUserDetails(AuthenticationManagerBuilder auth) throws
+            Exception {
+        auth.userDetailsService(webSecurityUserDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
+
 
 }
