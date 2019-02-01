@@ -6,12 +6,16 @@ import { RegisterComponent } from './core/authetication/register/register.compon
 import { AuthGuard } from './core/authetication/auth.guard';
 import { SkillsComponent } from './main/home/skills/skills.component';
 import { MentorsComponent } from './main/home/mentors/mentors.component';
+import { UsersComponent } from './main/home/users/users.component';
+import { TrainingsComponent } from './main/home/trainings/trainings.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard],
   children: [
     { path: 'skills', component: SkillsComponent },
     { path: 'mentors', component: MentorsComponent },
+    { path: 'users', component: UsersComponent },
+    { path: 'trainings', component: TrainingsComponent },
     { path: '**', redirectTo: 'skills' }
     ] 
   },
@@ -24,6 +28,7 @@ export const routing = RouterModule.forRoot(appRoutes);
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes, { enableTracing: true })],
+ // imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

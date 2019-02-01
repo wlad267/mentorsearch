@@ -1,14 +1,53 @@
 <div class="container-fluid">
 
-  <div class="row">
-    <button type="button" class="btn btn-link on_right" (click)="logout()">Logout</button>
+  <p-sidebar [(visible)]="displayMenu">
+    <div class="m-3">
+      <h3>Menu</h3>
+      <div class="m-4">
+        <font color="blue" face="verdana">
+          <p>Contextul options might change offenly</p>
+          <p>BlueMentors doesn't guratee menu items consistency</p>
+        </font>
+      </div>
+      <div></div>
+      <button class="btn"
+              [class.btn-primary]="mo1" (mouseover)="mo1=true" (mouseout)="mo1=false"
+              (click)="takeAction('skills')">Home
+      </button>
+      <br>
+      <button class="btn"
+              [class.btn-primary]="mo2" (mouseover)="mo2=true" (mouseout)="mo2=false"
+              (click)="takeAction('mission')">The Mission
+      </button>
+      <br>
+      <button class="btn"
+              [class.btn-primary]="mo3" (mouseover)="mo3=true" (mouseout)="mo3=false"
+              (click)="takeAction('trainings')">Mentoring
+      </button>
+      <br>
+      <button class="btn"
+              [class.btn-primary]="mo4" (mouseover)="mo4=true" (mouseout)="mo4=false"
+              (click)="takeAction('contact')">Contact
+      </button>
+      <br>
+      <button type="button" class="btn btn-link on_right" (click)="logout()">Logout</button>
+    </div>
+  </p-sidebar>
 
+  <button type="text"
+          (mouseover)="displayMenu = true"
+          pButton icon="pi pi-plus"
+          label="Show" class="btn btn-link" style="position: absolute; top: 0">Menu>>
+  </button>
+
+  <div class="row">
     <div class="col_centered">
-      <p-tabMenu class="ui-tabmenu-nav" [model]="items" [activeItem]="items[0]"></p-tabMenu>
+      <p-tabMenu class="ui-tabmenu-nav" [model]="tabMenuItems" [activeItem]="activTabMenuItem"></p-tabMenu>
     </div>
 
   </div>
 
   <router-outlet></router-outlet>
+
 
 </div>

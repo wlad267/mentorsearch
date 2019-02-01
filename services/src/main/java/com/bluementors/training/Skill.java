@@ -1,6 +1,9 @@
 package com.bluementors.training;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "SKILLS")
@@ -9,7 +12,13 @@ public class Skill {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="skill_seq")
     private Long id;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String name;
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String description;
     private boolean active = true;
 
@@ -22,6 +31,7 @@ public class Skill {
 
     public Skill(String name, String description){
         this.name = name;
+        this.description = description;
     }
 
     public Long getId() {

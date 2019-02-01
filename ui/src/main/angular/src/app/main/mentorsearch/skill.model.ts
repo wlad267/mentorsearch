@@ -1,3 +1,8 @@
 export class Skill {
-    constructor( private id: number = undefined, public name: string = '', public description: string= '', public active=true){}
+    constructor( public id: number = undefined,
+        public name: string = '',
+        public description: string= '',
+        public active=true,
+        public selected=false)
+        {}
 }

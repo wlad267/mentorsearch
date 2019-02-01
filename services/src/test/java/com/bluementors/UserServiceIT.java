@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class UserServiceIT extends BaseTest {
@@ -36,10 +37,21 @@ public class UserServiceIT extends BaseTest {
 
     @Test
     public void test_add_valid_user(){
-        User user = UserData.validUser;
+        User user = UserData.validUser();
 
         User savedUuser = userService.register(user);
 
         entityManager.flush();
+    }
+
+    @Test
+    public void test_find_user_by_email() {
+        User user = UserData.validUser();
+        User savedUuser = userService.register(user);
+        entityManager.flush();
+
+        User fetchedUser = userService.findUserByEmail(user.getEmail());
+        assertThat(fetchedUser).isNotNull();
+        assertThat(fetchedUser).isEqualTo(user);
     }
 }

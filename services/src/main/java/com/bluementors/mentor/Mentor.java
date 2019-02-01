@@ -1,10 +1,9 @@
 package com.bluementors.mentor;
 
-import com.bluementors.user.User;
 import com.bluementors.training.Skill;
+import com.bluementors.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "MENTORS")
-public class Mentor extends User implements Serializable {
+@SequenceGenerator(name = "mentor_seq", initialValue = 10, allocationSize = 1000000)
+public class Mentor implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mentor_seq")
+    private Long id;
 
     @OneToMany(cascade = {CascadeType.ALL})
     private List<Skill> skills = new ArrayList<>();
@@ -26,10 +29,13 @@ public class Mentor extends User implements Serializable {
     @UpdateTimestamp
     private LocalDateTime lastUpdated;
 
-    private String linkedUrl;
+    private String linkedInUrl;
     @NotNull
-    private Integer yearsOfExperince;
+    private Integer yearsOfExperience;
     private Boolean active = Boolean.TRUE;
+
+    @OneToOne
+    private User user;
 
     public Mentor(){}
 
@@ -37,7 +43,6 @@ public class Mentor extends User implements Serializable {
         return skills;
     }
 
-    @Override
     public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
@@ -46,17 +51,21 @@ public class Mentor extends User implements Serializable {
         return lastUpdated;
     }
 
-    public String getLinkedUrl() {
-        return linkedUrl;
+    public String getLinkedInUrl() {
+        return linkedInUrl;
     }
 
-    public Integer getYearsOfExperince() {
-        return yearsOfExperince;
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    @Override
+
     public Boolean getActive() {
         return active;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public static class Builder {
@@ -75,8 +84,8 @@ public class Mentor extends User implements Serializable {
             return this;
         }
 
-        public Builder yearsOfExperience(int yearsOfExperiance){
-            this.mentor.yearsOfExperince = yearsOfExperiance;
+        public Builder yearsOfExperience(int yearsOfExperiance) {
+            this.mentor.yearsOfExperience = yearsOfExperiance;
             return this;
         }
 
@@ -86,7 +95,15 @@ public class Mentor extends User implements Serializable {
         }
 
         public Builder user(User user){
-            BeanUtils.copyProperties(user, this.mentor);
+            //BeanUtils.copyProperties(user, this.mentor);
+            //user.setMentor(this.mentor);
+            this.mentor.user = user;
+            user.setMentor(this.mentor);
+            return this;
+        }
+
+        public Builder linkedInUrl(String linkedInUrl) {
+            this.mentor.linkedInUrl = linkedInUrl;
             return this;
         }
 

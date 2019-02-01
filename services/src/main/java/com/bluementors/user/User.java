@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "USERS")
@@ -18,7 +19,6 @@ public class User implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_seq")
     private Long id;
     @Email
-    @NotNull
     private String email;
     @NotNull
     private String authenticationString;
@@ -120,6 +120,10 @@ public class User implements Serializable {
         this.active = active;
     }
 
+    public void setMentor(Mentor mentor) {
+        this.mentor = mentor;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -133,6 +137,29 @@ public class User implements Serializable {
                 ", registrationCode='" + registrationCode + '\'' +
                 ", active=" + active +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(authenticationString, user.authenticationString) &&
+                Objects.equals(mentor, user.mentor) &&
+                Objects.equals(admin, user.admin) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(contactNo, user.contactNo) &&
+                Objects.equals(registrationDate, user.registrationDate) &&
+                Objects.equals(registrationCode, user.registrationCode) &&
+                Objects.equals(active, user.active);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, authenticationString, mentor, admin, firstName, lastName, contactNo, registrationDate, registrationCode, active);
     }
 
     public static class Builder{

@@ -14,5 +14,8 @@ export class UserService {
     return this.httpClient.post('api/registration', user);
   }
 
+  fetchAllUserts(){
+    return this.httpClient.get('api/users/all');
+  }
   
 }

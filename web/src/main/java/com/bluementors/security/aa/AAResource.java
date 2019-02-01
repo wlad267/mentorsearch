@@ -42,7 +42,6 @@ public class AAResource {
     private String jwtName;
 
     @PostMapping("login")
-    //@RolesAllowed({AppRoles.Names.ADMIN, AppRoles.Names.USER, AppRoles.Names.MENTOR})
     public ResponseEntity login(@RequestBody AARequest aaRequest) {
         logger.info("login requested " + aaRequest.getEmail());
 

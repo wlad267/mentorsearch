@@ -11,12 +11,26 @@ import { MentorsComponent } from './home/mentors/mentors.component';
 import { MainRoutesModule } from './main-routes.module';
 import { SkillsService } from './home/skills/skills.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {DialogModule} from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { SidebarModule } from 'primeng/sidebar';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TrainingsComponent } from './home/trainings/trainings.component';
+import { UsersComponent } from './home/users/users.component';
+import { MentorRegistrationComponent } from './home/mentors/mentor-registration/mentor-registration.component';
+import {EditorModule} from 'primeng/editor';
+import { SkillListComponent } from './home/skills/skill-list/skill-list.component';
+import { EditSkillComponent } from './home/skills/edit-skill/edit-skill.component';
+import {CheckboxModule} from 'primeng/checkbox';
+import { MentorService } from './home/mentors/mentor.service';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {PaginatorModule} from 'primeng/paginator';
+import { MentoringSkillsFormControlComponent } from './home/mentors/mentor-registration/mentoring-skills-form-control/mentoring-skills-form-control.component';
 
 
 
 @NgModule({
-  declarations: [HomeComponent, SkillsComponent, MentorsComponent],
+  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -27,9 +41,16 @@ import {DialogModule} from 'primeng/dialog';
     MainRoutesModule, 
     InputSwitchModule,
     FormsModule,
-    DialogModule
+    DialogModule,
+    TieredMenuModule,
+    SidebarModule,
+    DynamicDialogModule,
+    EditorModule,
+    CheckboxModule,
+    RadioButtonModule,
+    PaginatorModule
   ],
   exports: [HomeComponent, RouterModule],
-  providers: [UserService, SkillsService]
+  providers: [UserService, SkillsService, MentorService]
 })
 export class MainModule { }

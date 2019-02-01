@@ -14,6 +14,10 @@ public class SkillService {
         return skillRepository.findAll();
     }
 
+    public List<Skill> fetchByIds(List<Long> ids) {
+        return skillRepository.fetchByIds(ids);
+    }
+
     public Skill save(Skill skill) {
         return skillRepository.save(skill);
     }

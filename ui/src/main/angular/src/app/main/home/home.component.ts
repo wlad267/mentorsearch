@@ -12,12 +12,27 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  items: MenuItem[];
-  private user: User
-  private that: any;
+  /**
+   * controls the side menu 
+   */
+  displayMenu = false;
+  /**
+   * TabMenu items
+   */
+  tabMenuItems: MenuItem[];
+  activTabMenuItem: MenuItem;
 
+  private user: User
+  
+  /**
+   * Handlers for the tab menu
+   */
   onSkills: any;
   onMentors: any;
+  onUsers: any;
+  onTrainings: any;
+  onDonate: any;
+  
 
   constructor(private authenticationSevice: AuthenticationService,
              private router:Router, 
@@ -31,6 +46,14 @@ export class HomeComponent implements OnInit {
                 router.navigate(['/home/mentors'] );
               };
 
+              this.onUsers = function(event) {
+                router.navigate(['/home/users'] );
+              };
+
+              this.onTrainings = function(event) {
+                router.navigate(['/home/trainings'] );
+              };
+
              }
 
   ngOnInit() {
@@ -38,18 +61,40 @@ export class HomeComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
 
     console.log('current user ' + JSON.stringify(this.user));
+    
+    this.tabMenuItems = [
+      {label: 'Technologies', icon: 'fa fa-fw fa-bar-chart', command: this.onSkills},
+      {label: 'Mentoring', icon: 'fa fa-fw fa-calendar', command: this.onMentors},
+      //only for admins
+      {label: 'Users', icon: 'fa fa-fw fa-book', command: this.onUsers},
+      {label: 'Your Trainings', icon: 'fa fa-fw fa-book', command: this.onTrainings},
+      {label: 'Donate', icon: 'fa fa-fw fa-twitter', command: this.onDonate}
+    ];
 
-    this.items = [
-      {label: 'Skills', icon: 'fa fa-fw fa-bar-chart', command: this.onSkills},
-      {label: 'Mentors', icon: 'fa fa-fw fa-calendar', command: this.onMentors },
-      {label: 'Users', icon: 'fa fa-fw fa-book', command: this.onSkills},
-      {label: 'Payments', icon: 'fa fa-fw fa-support', command: this.onSkills},
-      {label: 'Statistics', icon: 'fa fa-fw fa-twitter', command: this.onSkills}
-  ];
+    this.activTabMenuItem = this.tabMenuItems[0];
   }
 
   logout(){
     this.authenticationSevice.logout();
   }
+ 
+  takeAction(action: string){
+    console.log('tacking action ' + action);
+    this.router.navigate([action], {relativeTo: this.route});
+    this.displayMenu = false;    
+    switch (action){
+      case 'skills':
+         this.activTabMenuItem = this.tabMenuItems[0];
+      break;
+      case 'trainings':
+        this.activTabMenuItem = this.tabMenuItems[3];
+      break;
+      default:
+        this.activTabMenuItem = this.tabMenuItems[0];
+      break;  
+    }
+  }
+
+  
 
 }

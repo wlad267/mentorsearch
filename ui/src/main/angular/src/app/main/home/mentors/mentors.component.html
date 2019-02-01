@@ -1,3 +1,43 @@
-<p>
-  mentors works!
-</p>
+<div class="container">
+  <div class="row mt-4">
+
+    <p>Welcome to mentoring plannet - a place in the known universe where smarter plannet is build.</p>
+    <p>By contributting to BlueMentors you are helping our planner to make a quatum leap to a smarter place on the our
+      galaxy.</p>
+
+    <div *ngIf="!user.mentor">
+      <p>I will be great if you ask register as a mentor on the thenologies offered to our users.</p>
+      <p>As a mentor you will have the oportunity to promote tehnology, gain experince in mentoring and build a
+        mentoring carrear.
+      </p>
+      <p>Our mentors ratings are shared also with our parteners and they might select you for thier internal trainings
+        neccesities.</p>
+
+      <app-mentor-registration></app-mentor-registration>
+
+
+    </div>
+
+
+    <div *ngIf="user.mentor">
+      thannk for registering as a user
+      <div *ngIf="user.mentor">your mentoring skills
+        <div>
+          <button class="btn btn-primary">Add Mentoring skill</button>
+          table of skills
+        </div>
+      </div>
+
+      <div>your menting rating</div>
+
+      <div>mentoring history:
+        <div> table</div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
