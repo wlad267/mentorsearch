@@ -1,0 +1,42 @@
+<!-- Edit Skill Dialog-->
+<div class="p-3" *ngIf="skill">
+  <p-dialog [(visible)]="skill" [modal]="true" [style]="{width: '500px', minWidth: '200px'}" [minY]="70"
+            [maximizable]="true"
+            [baseZIndex]="10000"
+            (onHide)="close($event)">
+    <p-header>
+      <font size='4'>Edit Skill:</font>
+    </p-header>
+
+    <form [formGroup]="skillFromGroup" (ngSubmit)="submitSkill()">
+      <div class="container">
+        <div class="row p-3">
+          <div class="col-md-2"><font size="3">Name:</font></div>
+          <div class="col-md-10">
+            <input formControlName="name"
+                   [ngClass]="{ 'red_border' : skillFromGroup.controls.name.errors && skillFromGroup.controls.name.touched }"/>
+          </div>
+          <p *ngIf="skillFromGroup.controls.name.errors && skillFromGroup.controls.name.touched">Skill name is
+            required</p>
+        </div>
+
+        <div class="row p-3">
+          <div class="col-md-2"><font size="2">Descriton:</font></div>
+          <div class="col-md-10">
+              <textarea formControlName="description"
+                        class="w-100"
+                        [ngClass]="{ 'red_border' : skillFromGroup.controls.description.errors && skillFromGroup.controls.description.touched }"></textarea>
+          </div>
+          <p *ngIf="skillFromGroup.controls.description.errors && skillFromGroup.controls.description.touched">
+            Description is required</p>
+        </div>
+
+
+        <p-footer>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </p-footer>
+
+      </div>
+    </form>
+  </p-dialog>
+</div>

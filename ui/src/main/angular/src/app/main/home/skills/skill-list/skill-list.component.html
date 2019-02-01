@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <p-table [value]="skills" [paginator]="true" [rows]="4">
+      <ng-template pTemplate="header">
+        <tr class="row">
+          <th class="col-md-1">Id</th>
+          <th class="col-md-3">Name</th>
+          <th class="col-md-6">Desciption</th>
+          <th *ngIf="componentMode=='edit'" class="col-md-2" style="text-align: center">Activation</th>
+          <th *ngIf="componentMode=='select'" class="col-md-2" style="text-align: center">Select</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-skill>
+        <tr class="row">
+          <td class="col-md-1" (click)="selectSkill(skill)">{{skill.id}}</td>
+          <td class="col-md-3" (click)="selectSkill(skill)">{{skill.name}}</td>
+          <td class="col-md-6" (click)="selectSkill(skill)">{{skill.description}}</td>
+          <td *ngIf="componentMode=='edit'" class="col-md-2">
+            <div style="margin-left: 30%">
+              <p-inputSwitch [(ngModel)]="skill.active"
+                             [disabled]="disabled"
+                             (onChange)="skillActivationChange($event, skill)">
+              </p-inputSwitch>
+            </div>
+          </td>
+          <td *ngIf="componentMode=='select'" class="col-md-2">
+            <div style="margin-left: 30%">
+              <p-inputSwitch [(ngModel)]="skill.selected"
+                             [disabled]="disabled"
+                             (onChange)="skillActivationChange($event, skill)">
+              </p-inputSwitch>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

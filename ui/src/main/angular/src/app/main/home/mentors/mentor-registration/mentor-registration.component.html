@@ -1,0 +1,61 @@
+<button (click)="display = true" class="btn btn-primary"> Register as a mentor</button>
+
+<p-dialog header="Mentor Registration"
+          [(visible)]="display"
+          [style]="{width: '70%', height: '60%'}"
+          [positionTop]="1" [modal]=true>
+
+        <span class="row col-md-10 offset-md-1 p-3">
+            <p>Sumbmittin the registration form must include at least one mentoring technology</p>
+            <p>Select your mentoring offer form the list bellow:</p>
+        </span>
+
+  <div>
+
+  </div>
+
+  <form [formGroup]="mentorRegistrationForm" (ngSubmit)="register()">
+
+    <div class="row col-md-10 offset-md-1 p-3">
+      <app-mentoring-skills-form-control
+        [skills]="skills"
+        formControlName="mentoringSkills">
+      </app-mentoring-skills-form-control>
+    </div>
+
+    <div class="row col-md-10 offset-md-1 p-1">
+      <label>Years of mentoring experiance</label>
+    </div>
+    <div class="row col-md-10 offset-md-1 p-1">
+      <div class="col-md-2">
+        <p-radioButton name="group2" value=1 label="1y" formControlName="yearsOfExperience"></p-radioButton>
+      </div>
+      <div class="col-md-2">
+        <p-radioButton name="group2" value=2 label="2y" formControlName="yearsOfExperience"></p-radioButton>
+      </div>
+      <div class="col-md-2">
+        <p-radioButton name="group2" value=3 label=">3y" formControlName="yearsOfExperience"></p-radioButton>
+      </div>
+    </div>
+
+    <div class="row col-md-10 offset-md-1 p-1 block" style='display: inline-block'>
+      <label>LinkedIn profile URL:</label>
+      <input type="url" class="col-md-12" formControlName="linkedInUrl">
+    </div>
+
+    <div class="row col-md-10 offset-md-1 p-3">
+      <p-checkbox value="* Agreement" label="Agreement" formControlName="agreement" binary="true"></p-checkbox>
+      <span class="row">
+            <p>You agree that BlueMentors will be proccessing your personal data and use it for commercial purposes.</p>
+            <p>BlueMentors and associates may contact you for validating your mentoring declaration.</p>
+      </span>
+    </div>
+
+    <div class="row col-md-10 offset-md-1 p-3">
+      <button class="btn btn-primary"
+              [disabled]="!mentorRegistrationForm.valid">Save
+      </button>
+      <!--(click)="register()"  -->
+    </div>
+  </form>
+</p-dialog>
