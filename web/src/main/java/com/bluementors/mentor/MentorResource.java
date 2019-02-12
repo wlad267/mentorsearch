@@ -1,5 +1,6 @@
 package com.bluementors.mentor;
 
+import com.bluementors.training.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,11 @@ public class MentorResource {
         return mentorService.listMentors();
     }
 
+    @GetMapping("/byUserId/{userId}")
+    public Mentor fetchMentorByuserId(@PathVariable("userId") Long userId) {
+        return mentorService.fetchByUserId(userId);
+    }
+
     @PostMapping("/register")
     public Mentor register(@RequestBody MentorRegistrationRequest request) {
         return this.mentorService.register(request.userId,
@@ -29,5 +35,10 @@ public class MentorResource {
     @GetMapping("/cancel/{uid}")
     public ResponseEntity cancelMentoring(@PathVariable("uid") Long uid) {
         return ResponseEntity.ok(mentorService.cancelMentoring(uid));
+    }
+
+    @PostMapping("/{mentorId}/calendar/save")
+    public ResponseEntity saveCalendar(@PathVariable("mentorId") Long mentorId, @RequestBody List<Calendar> calendar) {
+        return ResponseEntity.ok(mentorService.updateCalendar(mentorId, calendar));
     }
 }

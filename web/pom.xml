@@ -39,6 +39,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!-- SECURITY -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,8 +54,9 @@
             <artifactId>spring-security-jwt</artifactId>
             <version>RELEASE</version>
         </dependency>
+
+        <!-- JSON Web Token Support -->
         <dependency>
-            <!-- JSON Web Token Support -->
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>

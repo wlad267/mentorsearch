@@ -13,12 +13,10 @@ export class SkillsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  fetchSkills(){
+  fetchSkills() {
     return this.httpClient.get('api/skills/all')
-      .pipe(map(skills => {
-
+      .pipe(map((skills: Array<Skill>) => {
           window.sessionStorage.setItem('skills', JSON.stringify(skills));
-
           return skills;
       }));
   }
@@ -27,12 +25,21 @@ export class SkillsService {
     return this.httpClient.post('api/skills/save', skill);
   }
 
-  getSkills() {
+  /**
+   * If skills are already fetched and stored in the ssession return them from the session
+   * Otherwise fetch them
+   */   
+  getSkills(): Observable<Skill[]> {
     let skills = JSON.parse(window.sessionStorage.getItem('skills'));
     if (skills){
       return of(skills);  
     }
     return this.fetchSkills();
+  }
 
+  getActiveSkills(){
+    return this.getSkills().pipe(map((skills: Skill[]) => {
+      return skills.filter(s=>s.active);
+    }));
   }
 }

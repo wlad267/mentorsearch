@@ -1,11 +1,15 @@
 <div class="container">
   <div class="row">
-    <p-table [value]="skills" [paginator]="true" [rows]="4">
+    <p-table [value]="filteredSkills" [paginator]="true" [rows]="4">
       <ng-template pTemplate="header">
         <tr class="row">
           <th class="col-md-1">Id</th>
-          <th class="col-md-3">Name</th>
-          <th class="col-md-6">Desciption</th>
+          <th class="col-md-3">Name
+            <br>
+            <input type="text" class="form-control" (input)="onSearchChange($event.target.value, null)"></th>
+          <th class="col-md-6">Desciption
+            <br>
+            <input type="text" class="form-control" (input)="onSearchChange(null,$event.target.value)"></th>
           <th *ngIf="componentMode=='edit'" class="col-md-2" style="text-align: center">Activation</th>
           <th *ngIf="componentMode=='select'" class="col-md-2" style="text-align: center">Select</th>
         </tr>

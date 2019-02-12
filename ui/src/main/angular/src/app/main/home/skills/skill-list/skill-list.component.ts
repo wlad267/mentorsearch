@@ -14,7 +14,11 @@ export class SkillListComponent implements OnInit {
   /**
    * List of thechonlogies the component will me handling
    */
-  @Input() skills: Array<Skill>;
+  @Input('skills') set skillsSetter( skills: Array<Skill>){
+    this.filteredSkills = skills;
+    this.skills = skills;
+  }
+  skills: Skill[];
 
   /**
    * Component might also disale enebling/disabling skills.
@@ -47,6 +51,11 @@ export class SkillListComponent implements OnInit {
    */
   @Output() skillActivation: EventEmitter<Skill> =  new EventEmitter<Skill>();
 
+  nameFilter: string;
+  description: string;
+  
+  filteredSkills: Skill[];
+
   constructor() { }
 
   ngOnInit() {
@@ -62,6 +71,21 @@ export class SkillListComponent implements OnInit {
     skill.active = event.checked;
     skill.selected = event.checked;
     this.skillActivation.emit(skill); 
+  }
+
+  public onSearchChange(nameKey: string, descriptionKey: string){
+    console.log(' filtering ');
+    let filteredSkills = this.skills;
+
+    if (nameKey && nameKey.length>0){
+      filteredSkills = this.skills.filter(s=> s.name.indexOf(nameKey)>0);
+    }
+
+    if (descriptionKey && descriptionKey.length>0){
+      filteredSkills = this.filteredSkills.filter(s=> s.description.indexOf(descriptionKey)>0);
+    }
+
+    this.filteredSkills = filteredSkills;
   }
   
 }

@@ -45,7 +45,7 @@ public class AAResource {
     public ResponseEntity login(@RequestBody AARequest aaRequest) {
         logger.info("login requested " + aaRequest.getEmail());
 
-        User user = userService.findUserByEmail(aaRequest.getEmail());
+        User user = userService.findByEmail(aaRequest.getEmail());
         if (isNull(user)) {
             return ResponseEntity.status(APP_ERROR).build();
         }

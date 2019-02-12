@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,8 +20,6 @@ public class UserServiceIT extends BaseTest {
     @Autowired
     private UserService userService;
 
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Test(expected = ConstraintViolationException.class)
     public void test_add_invalid_user(){
@@ -50,7 +46,7 @@ public class UserServiceIT extends BaseTest {
         User savedUuser = userService.register(user);
         entityManager.flush();
 
-        User fetchedUser = userService.findUserByEmail(user.getEmail());
+        User fetchedUser = userService.findByEmail(user.getEmail());
         assertThat(fetchedUser).isNotNull();
         assertThat(fetchedUser).isEqualTo(user);
     }

@@ -1,4 +1,19 @@
-<p>
-  trainings works!
+<p>This section is designated for learning.
+  <br>Learn. Learn. Learn ... make the plannet smarter.
 </p>
 
+
+<div>
+  Book a training:
+  <p-steps [model]="steps" [readonly]="false" (activeIndex)="activeStep"></p-steps>
+  <app-skill-list *ngIf="activeStep==1"
+                  componentMode="select"
+                  [(skills)]="skills"
+                  disabled=false
+                  (skillActivation)="selectSkillForTrainig($event)">
+  </app-skill-list>
+
+  <div *ngIf="activeStep==2">
+    <app-mentor-calendar [calendar]="availabaleMentorsCalendar"></app-mentor-calendar>
+  </div>
+</div>

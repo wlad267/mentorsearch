@@ -1,5 +1,6 @@
 package com.bluementors.user;
 
+import com.bluementors.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findUserByEmail(String email){
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new BusinessException("User not found"));
     }
 }

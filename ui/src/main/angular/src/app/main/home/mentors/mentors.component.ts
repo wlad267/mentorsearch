@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { User } from '../../mentorsearch/user.model';
+import { MentorService } from './mentor.service';
+import { Calendar } from '../../mentorsearch/calendar.model';
+import { Skill } from '../../mentorsearch/skill.model';
+import { Mentor } from '../../mentorsearch/mentor.model';
 
 @Component({
   selector: 'app-mentors',
@@ -9,18 +13,32 @@ import { User } from '../../mentorsearch/user.model';
   styleUrls: ['./mentors.component.scss']
 })
 export class MentorsComponent implements OnInit {
-
   
   items: MenuItem[];
   skillManager: any;
   display = false;
   user: User;
+  calendar : Array<Calendar>;
+  skills: Array<Skill>;
+  rating: number;
   
-  constructor( private router:Router) { }
+  constructor( private router:Router, private mentorService: MentorService) {}
+  
   ngOnInit() {
 
     this.user= JSON.parse(localStorage.getItem('currentUser'));
     console.log(this.user.mentor);
+
+    if (this.user.mentor){
+        this.mentorService.getMentoringData(this.user.id).subscribe((data: Mentor) => {
+            window.sessionStorage.setItem('mentor', JSON.stringify(data));
+            this.calendar = data.calendar;    
+            this.skills = data.skills;
+            //TODO: update this from the service
+            this.rating = 3;
+            console.log('received mentoring info '+ JSON.stringify(data));
+          });        
+    }
 
     this.items = [
       {

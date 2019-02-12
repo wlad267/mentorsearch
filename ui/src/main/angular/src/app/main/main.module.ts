@@ -26,11 +26,17 @@ import { MentorService } from './home/mentors/mentor.service';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {PaginatorModule} from 'primeng/paginator';
 import { MentoringSkillsFormControlComponent } from './home/mentors/mentor-registration/mentoring-skills-form-control/mentoring-skills-form-control.component';
+import { MentorCalendarComponent } from './home/mentors/mentor-calendar/mentor-calendar.component';
+import {FullCalendarModule} from 'primeng/fullcalendar';
 
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {AccordionModule} from 'primeng/accordion';
+import {RatingModule} from 'primeng/rating';
+import {StepsModule} from 'primeng/steps';
 
 
 @NgModule({
-  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent],
+  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent, MentorCalendarComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -48,7 +54,12 @@ import { MentoringSkillsFormControlComponent } from './home/mentors/mentor-regis
     EditorModule,
     CheckboxModule,
     RadioButtonModule,
-    PaginatorModule
+    PaginatorModule,
+    FullCalendarModule,
+    ScrollPanelModule,
+    AccordionModule,
+    RatingModule,
+    StepsModule
   ],
   exports: [HomeComponent, RouterModule],
   providers: [UserService, SkillsService, MentorService]

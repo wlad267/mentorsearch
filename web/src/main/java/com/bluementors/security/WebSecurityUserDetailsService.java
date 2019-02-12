@@ -16,7 +16,7 @@ public class WebSecurityUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user =userService.findUserByEmail(s);
+        User user = userService.findByEmail(s);
         return WebSecurityUserDetails.create(user);
     }
 }

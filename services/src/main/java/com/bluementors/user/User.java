@@ -124,6 +124,10 @@ public class User implements Serializable {
         this.mentor = mentor;
     }
 
+    public Mentor getMentor() {
+        return mentor;
+    }
+
     @Override
     public String toString() {
         return "User{" +

@@ -1,12 +1,15 @@
 package com.bluementors.mentor;
 
+import com.bluementors.training.Calendar;
 import com.bluementors.training.Skill;
 import com.bluementors.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,8 +23,11 @@ public class Mentor implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mentor_seq")
     private Long id;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.REFRESH})
     private List<Skill> skills = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Calendar> calendar = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime registrationDate;
@@ -35,6 +41,7 @@ public class Mentor implements Serializable {
     private Boolean active = Boolean.TRUE;
 
     @OneToOne
+    @JsonIgnore
     private User user;
 
     public Mentor(){}
@@ -64,8 +71,21 @@ public class Mentor implements Serializable {
         return active;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public User getUser() {
         return user;
+    }
+
+    public List<Calendar> getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(@NotNull @Size(min = 1) List<Calendar> calendar) {
+        this.calendar = new ArrayList<>();
+        this.calendar.addAll(calendar);
     }
 
     public static class Builder {
@@ -95,8 +115,6 @@ public class Mentor implements Serializable {
         }
 
         public Builder user(User user){
-            //BeanUtils.copyProperties(user, this.mentor);
-            //user.setMentor(this.mentor);
             this.mentor.user = user;
             user.setMentor(this.mentor);
             return this;

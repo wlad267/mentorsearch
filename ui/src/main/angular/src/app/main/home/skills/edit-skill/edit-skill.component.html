@@ -1,8 +1,10 @@
 <!-- Edit Skill Dialog-->
 <div class="p-3" *ngIf="skill">
-  <p-dialog [(visible)]="skill" [modal]="true" [style]="{width: '500px', minWidth: '200px'}" [minY]="70"
+  <p-dialog [(visible)]="skill"
+            [modal]="false"
+            [style]="{width: '500px', minWidth: '200px'}"
+            [minY]="70"
             [maximizable]="true"
-            [baseZIndex]="10000"
             (onHide)="close($event)">
     <p-header>
       <font size='4'>Edit Skill:</font>

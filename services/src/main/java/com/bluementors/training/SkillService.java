@@ -1,5 +1,6 @@
 package com.bluementors.training;
 
+import com.bluementors.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,5 +21,9 @@ public class SkillService {
 
     public Skill save(Skill skill) {
         return skillRepository.save(skill);
+    }
+
+    public Skill fetchSkill(Long skillId) {
+        return skillRepository.findById(skillId).orElseThrow(() -> new BusinessException("desired skill not found"));
     }
 }

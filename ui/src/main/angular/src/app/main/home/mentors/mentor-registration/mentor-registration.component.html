@@ -1,9 +1,12 @@
-<button (click)="display = true" class="btn btn-primary"> Register as a mentor</button>
+<button (click)="display = true" class="btn btn-primary">{{componentMode ==='create'? 'Register as a Mentor': 'Edit Your
+  Mentoring Profile'}}
+</button>
 
 <p-dialog header="Mentor Registration"
           [(visible)]="display"
           [style]="{width: '70%', height: '60%'}"
-          [positionTop]="1" [modal]=true>
+          [positionTop]="1"
+          [modal]="false">
 
         <span class="row col-md-10 offset-md-1 p-3">
             <p>Sumbmittin the registration form must include at least one mentoring technology</p>

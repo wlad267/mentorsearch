@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private String[] permitted = {"/h2/**", "/api/auth/**", "/version", "/**.ico"};
+    private String[] permitted = {"/h2/**", "/actuator/**", "/api/auth/**", "/version", "/**.ico"};
 
     @Autowired
     private WebSecurityUserDetailsService webSecurityUserDetailsService;
