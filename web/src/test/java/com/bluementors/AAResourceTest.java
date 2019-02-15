@@ -1,4 +1,4 @@
-package mentor.search.com.mentorsearch;
+package com.bluementors;
 
 import com.bluementors.security.aa.AAResource;
 import org.junit.Test;

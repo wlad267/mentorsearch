@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 @EnableAutoConfiguration
-public abstract class BaseTest {
+public abstract class IntegrationTest {
     @PersistenceContext
     protected EntityManager entityManager;
 }

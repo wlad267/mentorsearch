@@ -1,4 +1,4 @@
-package mentor.search.com.mentorsearch;
+package com.bluementors;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

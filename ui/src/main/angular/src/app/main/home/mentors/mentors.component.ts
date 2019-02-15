@@ -13,8 +13,7 @@ import { Mentor } from '../../mentorsearch/mentor.model';
   styleUrls: ['./mentors.component.scss']
 })
 export class MentorsComponent implements OnInit {
-  
-  items: MenuItem[];
+
   skillManager: any;
   display = false;
   user: User;
@@ -40,28 +39,12 @@ export class MentorsComponent implements OnInit {
           });        
     }
 
-    this.items = [
-      {
-          label: 'Profile',
-          icon: 'pi pi-fw pi-cog',
-          items: [
-              { label: 'Manage you Skills', icon: 'pi pi-fw pi-cog' ,  command: this.skillManager},
-          ]
-      },
-      {
-          label: 'Trainings',
-          icon: 'pi pi-fw pi-pencil',
-          items: [
-              {label: 'Training Requests', icon: 'pi pi-fw pi-trash' , command: this.skillManager},
-              {label: 'Confirmations & Schedule', icon: 'pi pi-fw pi-refresh' , command: this.skillManager},
-              {label: 'History', icon: 'pi pi-fw pi-trash',  command: this.skillManager}
-
-          ]
-      }
-  ];
-
   }
 
+  updateLocalMentor(mentor: Mentor){
+      this.skills= mentor.skills;
+      this.calendar = mentor.calendar;
+  }
 
   register(){
     console.log("register");

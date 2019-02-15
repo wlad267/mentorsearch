@@ -13,7 +13,7 @@ import javax.validation.ConstraintViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class UserServiceIT extends BaseTest {
+public class UserServiceIT extends IntegrationTest {
 
     Logger logger = LoggerFactory.getLogger(UserServiceIT.class);
 
@@ -33,7 +33,7 @@ public class UserServiceIT extends BaseTest {
 
     @Test
     public void test_add_valid_user(){
-        User user = UserData.validUser();
+        User user = UserData.JohnMaxwell();
 
         User savedUuser = userService.register(user);
 
@@ -42,7 +42,7 @@ public class UserServiceIT extends BaseTest {
 
     @Test
     public void test_find_user_by_email() {
-        User user = UserData.validUser();
+        User user = UserData.JohnMaxwell();
         User savedUuser = userService.register(user);
         entityManager.flush();
 

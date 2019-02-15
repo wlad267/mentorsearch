@@ -1,6 +1,6 @@
 package com.bluementors.trainings;
 
-import com.bluementors.BaseTest;
+import com.bluementors.IntegrationTest;
 import com.bluementors.data.TrainingData;
 import com.bluementors.training.Skill;
 import com.bluementors.training.SkillService;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SkillServiceIT extends BaseTest {
+public class SkillServiceIT extends IntegrationTest {
 
     @Autowired
     private SkillService skillService;

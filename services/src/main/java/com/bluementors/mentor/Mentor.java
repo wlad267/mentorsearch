@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "MENTORS")
@@ -23,7 +24,7 @@ public class Mentor implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mentor_seq")
     private Long id;
 
-    @OneToMany(cascade = {CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     private List<Skill> skills = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL})
@@ -83,9 +84,35 @@ public class Mentor implements Serializable {
         return calendar;
     }
 
+    public void setSkills(List<Skill> skills) {
+        this.skills = new ArrayList<>();
+        this.skills.addAll(skills);
+    }
+
     public void setCalendar(@NotNull @Size(min = 1) List<Calendar> calendar) {
         this.calendar = new ArrayList<>();
         this.calendar.addAll(calendar);
+    }
+
+    public void setLinkedInUrl(String linkedInUrl) {
+        this.linkedInUrl = linkedInUrl;
+    }
+
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mentor mentor = (Mentor) o;
+        return Objects.equals(id, mentor.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public static class Builder {

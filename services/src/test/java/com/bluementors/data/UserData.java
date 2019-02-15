@@ -6,13 +6,22 @@ public class UserData {
 
     public static User invalidUser = new User();
 
-    public static User validUser() {
+    public static User JohnMaxwell() {
         return new User.Builder()
-                .authenticationString("lulu123")
-                .email("lulu@lulu.org")
+                .authenticationString("myPassword")
+                .email("john@bluementors.org")
                 .firstName("lulu")
-                .lastName("lulu")
+                .lastName("maxwell")
                 .build();
 
+    }
+
+    public static User RobinWilliams() {
+        return new User.Builder()
+                .authenticationString("2thPassword")
+                .email("robin@bluementors.org")
+                .firstName("robin")
+                .lastName("williams")
+                .build();
     }
 }

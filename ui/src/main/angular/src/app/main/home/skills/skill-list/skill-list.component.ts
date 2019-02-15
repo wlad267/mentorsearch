@@ -78,11 +78,11 @@ export class SkillListComponent implements OnInit {
     let filteredSkills = this.skills;
 
     if (nameKey && nameKey.length>0){
-      filteredSkills = this.skills.filter(s=> s.name.indexOf(nameKey)>0);
+      filteredSkills = this.skills.filter(s=> s.name.indexOf(nameKey) >= 0);
     }
 
     if (descriptionKey && descriptionKey.length>0){
-      filteredSkills = this.filteredSkills.filter(s=> s.description.indexOf(descriptionKey)>0);
+      filteredSkills = this.filteredSkills.filter(s=> s.description.indexOf(descriptionKey) >= 0);
     }
 
     this.filteredSkills = filteredSkills;

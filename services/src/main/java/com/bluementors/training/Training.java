@@ -31,7 +31,71 @@ public class Training {
     private Integer traineeRate;
 
     @OneToOne
-    private Payment payment;
+    private Payment donation;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Mentor getMentor() {
+        return mentor;
+    }
+
+    public void setMentor(Mentor mentor) {
+        this.mentor = mentor;
+    }
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
+
+    public TrainingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TrainingStatus status) {
+        this.status = status;
+    }
+
+    public Integer getTraineeRate() {
+        return traineeRate;
+    }
+
+    public void setTraineeRate(Integer traineeRate) {
+        this.traineeRate = traineeRate;
+    }
+
+    public Payment getDonation() {
+        return donation;
+    }
+
+    public void setDonation(Payment donation) {
+        this.donation = donation;
+    }
 
     public static class Builder {
         private Training training = new Training();

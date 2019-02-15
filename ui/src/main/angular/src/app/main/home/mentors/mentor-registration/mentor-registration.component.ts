@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SkillsService } from '../../skills/skills.service';
 import { Skill } from '../../../mentorsearch/skill.model';
 import { LoadingService } from '../../../../core/loading/loading.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MentorService } from '../mentor.service';
 import { Mentor } from '../../../mentorsearch/mentor.model';
+
 
 
 export function ValidateUrl(control: AbstractControl) {
@@ -22,10 +23,18 @@ export function ValidateUrl(control: AbstractControl) {
 export class MentorRegistrationComponent implements OnInit {
 
   @Input() componentMode: string;
+  @Input('selectedSkills') set selectedSkillsSetter(value: Array<Skill>){
+    this.selectedSkills = value;
+    if (this.skills){
+      this.updateMentorFrom();
+    }
+  }
 
+  @Output() mentorEvent: EventEmitter<Mentor> = new EventEmitter<Mentor>();
+
+  selectedSkills: Array<Skill>;
   display = false;
-  skills: Array<Skill>; 
-  selectedSkills: Array<Skill>; 
+  skills: Array<Skill>;
   years = 1;
   linkedInUrl: string;
   mentorRegistrationForm: FormGroup;
@@ -39,25 +48,30 @@ export class MentorRegistrationComponent implements OnInit {
               }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.mentorRegistrationForm = new FormGroup({
+      mentoringSkills: new FormControl(new Array(), [Validators.required]),
+      yearsOfExperience: new FormControl(2),
+      linkedInUrl: new FormControl(''),
+      agreement: new FormControl(false, Validators.requiredTrue)
+    });
 
     this.loaadingSevice.block();
-    this.skillsService.getActiveSkills().subscribe((skills: Array<Skill>)=> {
-      
+    this.skillsService.getActiveSkills().subscribe((skills: Array<Skill>)=> {      
       this.skills = skills.filter(skill=> skill.active);
-
-      console.log('received active skills ' + skills);
-      
-      this.updateMentorFrom();
+      console.log('received active skills ' + skills);      
+      if (this.selectedSkills){
+        this.updateMentorFrom();
+      }
+     
       this.loaadingSevice.unblock();
     });
 
   }
 
   private updateMentorFrom():void {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
-    if (this.user.mentor){
       let skillIds = [];
-      for (let skill of this.user.mentor.skills){
+      for (let skill of this.selectedSkills){
             skillIds.push(skill.id);
       }
 
@@ -65,16 +79,7 @@ export class MentorRegistrationComponent implements OnInit {
           if (skillIds.indexOf(skill.id)>=0){
               skill.selected = true;
             }
-          }
-
-    }  
-    
-    this.mentorRegistrationForm = new FormGroup({
-      mentoringSkills: new FormControl(new Array(), [Validators.required]),
-      yearsOfExperience: new FormControl(2),
-      linkedInUrl: new FormControl(''),
-      agreement: new FormControl(false, Validators.requiredTrue)
-    });
+      }
 
   }
 
@@ -92,9 +97,10 @@ export class MentorRegistrationComponent implements OnInit {
         skills: selectedSkill,
         yearsOfExperience: this.mentorRegistrationForm.controls.yearsOfExperience.value,
         linkedInUrl: this.mentorRegistrationForm.controls.linkedInUrl.value}
-    ).subscribe(response=>{
+    ).subscribe((response: Mentor)=>{
         console.log(response);
         window.sessionStorage.setItem('mentor', JSON.stringify(response));
+        this.mentorEvent.emit(response);
       })
     this.display = false;
   }

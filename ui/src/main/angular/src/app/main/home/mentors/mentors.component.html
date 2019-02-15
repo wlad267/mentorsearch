@@ -13,7 +13,7 @@
           <p>As a mentor you will have the oportunity to promote tehnology, gain experince in mentoring and build a
             mentoring carrear.
           </p>
-          <app-mentor-registration></app-mentor-registration>
+          <app-mentor-registration (mentorEvent)="updateLocalMentor($event)"></app-mentor-registration>
           <p>Our mentors ratings are shared also with our parteners and they might select you for thier internal
             trainings neccesities.</p>
         </div>
@@ -25,7 +25,8 @@
           <div *ngIf="user.mentor" class="mt-3">your mentoring skills
 
             <div>
-              <app-mentor-registration></app-mentor-registration>
+              <app-mentor-registration [selectedSkills]="skills"
+                                       (mentorEvent)="updateLocalMentor($event)"></app-mentor-registration>
               <div class="mt-3">
                 <p>Your current skill set:</p>
                 <ul>

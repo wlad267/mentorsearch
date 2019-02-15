@@ -12,15 +12,21 @@ public class Skill {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="skill_seq")
     private Long id;
+
     @NotNull
     @NotEmpty
     @NotBlank
     private String name;
+
     @NotNull
     @NotEmpty
     @NotBlank
     private String description;
+
     private boolean active = true;
+
+//    @ManyToMany
+//    private List<Mentor> mentors;
 
     public Skill(){
     }

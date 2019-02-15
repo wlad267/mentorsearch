@@ -41,18 +41,28 @@ public class MentorService {
 
         User user = userService.findById(userId);
 
-        Mentor mentor = new Mentor.Builder()
-                .user(user)
-                .skills(skills)
-                .yearsOfExperience(yearsOfExperience)
-                .linkedInUrl(linkedInUrl)
-                .build();
+        // check if the user is already a mentor and take appropriate steps
+        if (user.isMentor()) {
+            Mentor mentor = user.getMentor();
+            mentor.setSkills(skills);
+            mentor.setLinkedInUrl(linkedInUrl);
+            mentor.setYearsOfExperience(yearsOfExperience);
+        } else {
+            Mentor mentor = new Mentor.Builder()
+                    .user(user)
+                    .skills(skills)
+                    .yearsOfExperience(yearsOfExperience)
+                    .linkedInUrl(linkedInUrl)
+                    .build();
 
-        user.setMentor(mentor);
+            user.setMentor(mentor);
+        }
 
-        mentorRepository.save(mentor);
+        // there is no need to manually save the entity since we are in a transactional method
+        // let's keep it for the clarity of this coding exercise
+        mentorRepository.save(user.getMentor());
 
-        return mentor;
+        return user.getMentor();
     }
 
 
