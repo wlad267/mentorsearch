@@ -1,12 +1,12 @@
 package com.bluementors.security.aa;
 
+import com.bluementors.security.jwt.JwtConfiguration;
 import com.bluementors.security.jwt.JwtTokenProvider;
 import com.bluementors.user.User;
 import com.bluementors.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +38,8 @@ public class AAResource {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @Value("${app.jwtTokenName}")
-    private String jwtName;
+    @Autowired
+    private JwtConfiguration jwtConfiguration;
 
     @PostMapping("login")
     public ResponseEntity login(@RequestBody AARequest aaRequest) {
@@ -64,7 +64,7 @@ public class AAResource {
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + jwt);
 
-        headers.add("Set-Cookie",jwtName + "=" + jwt + "; Path=/");
+        headers.add("Set-Cookie", jwtConfiguration.jwtName + "=" + jwt + "; Path=/");
         return new ResponseEntity(user, headers, HttpStatus.OK);
     }
 

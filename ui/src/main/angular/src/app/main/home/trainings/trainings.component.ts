@@ -13,7 +13,7 @@ import { MentorService } from '../mentors/mentor.service';
 export class TrainingsComponent implements OnInit {
 
   steps: MenuItem[];
-  activeStep=1;
+  activeStep=0;
   skills: Skill[];
   selectedSkill: Skill;
   availabaleMentorsCalendar: Calendar[];
@@ -36,7 +36,7 @@ export class TrainingsComponent implements OnInit {
     //this.mentorService.
 
     this.selectedSkill = skill;
-    this.activeStep = this.activeStep++;
+    this.activeStep = this.activeStep + 1;
   }
   
 

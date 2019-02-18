@@ -1,10 +1,12 @@
 package com.bluementors.mentor;
 
+import com.bluementors.security.AppRoles;
 import com.bluementors.training.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -20,6 +22,7 @@ public class MentorResource {
     }
 
     @GetMapping("/byUserId/{userId}")
+    @RolesAllowed({AppRoles.Names.USER})
     public Mentor fetchMentorByuserId(@PathVariable("userId") Long userId) {
         return mentorService.fetchByUserId(userId);
     }

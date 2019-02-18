@@ -18,4 +18,7 @@ public class JwtConfiguration {
     @Value("${app.AppAuthSchema}")
     public String jwtAuthSchema;
 
+    @Value("${app.jwtTokenName}")
+    public String jwtName;
+
 }

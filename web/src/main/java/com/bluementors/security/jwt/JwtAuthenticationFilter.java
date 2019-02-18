@@ -24,6 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final static Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
+    private static final String NULL_TOKEN = null;
+
     @Autowired
     private JwtTokenProvider tokenProvider;
 
@@ -53,44 +55,58 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = null;
-
         // 2. check the token cookie
-        for (Cookie cookie : httpServletRequest.getCookies()) {
-            if (jwtConfiguration.jwtTokenName.equals(cookie.getName())) {
-                token = cookie.getValue();
-                break;
-            }
-        }
+        String token = this.readCookieToken(httpServletRequest);
 
         // 3. if no cookie than maybe header
         if (isNull(token)) {
-            // 3.1 if not cookie try to get the authentication header as supposed to be passed in the authentication header
-            String header = httpServletRequest.getHeader(jwtConfiguration.jwtTokenName);
-            // 3.2 validate the header and check the prefix
-            if (header == null || !header.startsWith(jwtConfiguration.jwtAuthSchema)) {
-
+            token = this.readHeaderToken(httpServletRequest);
+            if (isNull(token)) {
                 // If there is no token provided and hence the user won't be authenticated.
                 // It's Ok. Maybe the user accessing a public path or asking for a token.
-
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
                 //if not valid, go to the next filter.
                 return;
             }
-            token = header.replace(jwtConfiguration.jwtAuthSchema, "");
         }
 
 
-        // 4. Validate the token
-
+        // 4.1 Validate the token
         UsernamePasswordAuthenticationToken auth = tokenProvider.springAuthToken(token);
-
 
         // 4.2 Authenticate the user
         // Now, user is authenticated
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+
+    private String readCookieToken(HttpServletRequest httpServletRequest) {
+        if (isNull(httpServletRequest.getCookies()) || httpServletRequest.getCookies().length == 0) {
+            return NULL_TOKEN;
+        }
+
+        for (Cookie cookie : httpServletRequest.getCookies()) {
+            if (jwtConfiguration.jwtTokenName.equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+
+        return NULL_TOKEN;
+    }
+
+    private String readHeaderToken(HttpServletRequest httpServletRequest) {
+        // 3.1 if not cookie try to get the authentication header as supposed to be passed in the authentication header
+        String header = httpServletRequest.getHeader(jwtConfiguration.jwtTokenName);
+        // 3.2 validate the header and check the prefix
+        if (header == null || !header.startsWith(jwtConfiguration.jwtAuthSchema)) {
+
+            // If there is no token provided and hence the user won't be authenticated.
+            // It's Ok. Maybe the user accessing a public path or asking for a token.
+            return NULL_TOKEN;
+        }
+
+        return header.replace(jwtConfiguration.jwtAuthSchema, "");
     }
 
 }
