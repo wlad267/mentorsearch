@@ -64,7 +64,7 @@ public class AAResource {
         HttpHeaders headers = new HttpHeaders();
         //headers.set("Authorization", "Bearer " + jwt);
 
-        headers.add("Set-Cookie", jwtConfiguration.jwtName + "=" + jwt + "; Path=/");
+        headers.add("Set-Cookie", jwtConfiguration.jwtTokenName + "=" + jwt + "; Path=/");
         return new ResponseEntity(user, headers, HttpStatus.OK);
     }
 

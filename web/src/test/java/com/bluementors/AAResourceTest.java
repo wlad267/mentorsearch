@@ -91,7 +91,7 @@ public class AAResourceTest {
                         .content(objectMapper.writeValueAsBytes(aaRequest))
         )
                 .andExpect(status().isOk())
-                .andExpect(cookie().value(jwtConfiguration.jwtName, "THE_TOKEN"));
+                .andExpect(cookie().value(jwtConfiguration.jwtTokenName, "THE_TOKEN"));
 
     }
 

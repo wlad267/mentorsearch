@@ -41,10 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private boolean isResourcePermitted(HttpServletRequest request) {
-        return permitted.stream().filter(p -> p.test(request)).findFirst().isPresent();
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         logger.info("checking JWT for " + httpServletRequest.getRemoteAddr());
@@ -79,6 +75,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+
+
+    private boolean isResourcePermitted(HttpServletRequest request) {
+        return permitted.stream().filter(p -> p.test(request)).findFirst().isPresent();
     }
 
     private String readCookieToken(HttpServletRequest httpServletRequest) {

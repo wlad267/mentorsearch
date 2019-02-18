@@ -23,14 +23,13 @@ public class JwtTokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    private static final String AUTHOTORITIES_KEY = "authorities";
-    private static final String SPRING_ROLE_PREFIC = "ROLE_";
+    private static final String AUTHORITIES_KEY = "authorities";
+    private static final String SPRING_ROLE_PREFIX = "ROLE_";
 
     @Autowired
     private JwtConfiguration jwtConfiguration;
 
     public String generateToken(Authentication authentication) {
-
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 
         Date now = new Date();
@@ -41,7 +40,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtConfiguration.jwtSecret.getBytes())
-                .claim(AUTHOTORITIES_KEY, authentication.
+                .claim(AUTHORITIES_KEY, authentication.
                         getAuthorities()
                         .stream()
                         .map(s -> s.getAuthority())
@@ -63,7 +62,7 @@ public class JwtTokenProvider {
         }
 
         @SuppressWarnings("unchecked")
-        List<String> authorities = (List<String>) claims.get(AUTHOTORITIES_KEY);
+        List<String> authorities = (List<String>) claims.get(AUTHORITIES_KEY);
 
         // 4.2 Create auth object
         // UsernamePasswordAuthenticationToken: A built-in object, used by spring to represent the current authenticated / being authenticated user.
@@ -72,7 +71,7 @@ public class JwtTokenProvider {
                 username,
                 null,
                 authorities.stream()
-                        .map(authority -> SPRING_ROLE_PREFIC.concat(authority))
+                        .map(authority -> SPRING_ROLE_PREFIX.concat(authority))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList())
         );

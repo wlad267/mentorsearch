@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,7 +27,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -79,17 +77,14 @@ public class MentorResourceIT {
                 .compact();
     }
 
-    //TODO: rework this one once the controller advice will be introduced
+
     @Test
-    public void call_no_jct__authorization_failure() {
-        try {
+    public void call_no_jct__authorization_failure() throws Exception {
             this.mockMvc.perform(
                     get("/api/mentors/byUserId/123")
                             .contentType(MediaType.APPLICATION_JSON)
             ).andExpect(status().isForbidden());
-        } catch (Exception e) {
-            assertThat(e).isInstanceOf(AuthenticationCredentialsNotFoundException.class);
-        }
+
     }
 
     @Test
@@ -99,7 +94,7 @@ public class MentorResourceIT {
         this.mockMvc.perform(
                 get("/api/mentors/byUserId/123")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .cookie(new Cookie(jwtConfiguration.jwtName, jwtToken))
+                        .cookie(new Cookie(jwtConfiguration.jwtTokenName, jwtToken))
         ).andExpect(status().isOk());
     }
 
