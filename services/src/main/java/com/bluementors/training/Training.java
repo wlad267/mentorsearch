@@ -8,10 +8,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TRAININGS")
+@SequenceGenerator(name = "training_seq", initialValue = 10, allocationSize = 1000000)
 public class Training {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_seq")
     private Long id;
-
     @NotNull
     @OneToOne
     private User user;

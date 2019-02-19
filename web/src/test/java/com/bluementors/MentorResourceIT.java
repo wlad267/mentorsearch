@@ -89,7 +89,7 @@ public class MentorResourceIT {
 
     @Test
     public void fetch_mentor_by_userId() throws Exception {
-        when(mentorService.fetchByUserId(123L)).thenReturn(new Mentor.Builder().build());
+        when(mentorService.findByUserId(123L)).thenReturn(new Mentor.Builder().build());
 
         this.mockMvc.perform(
                 get("/api/mentors/byUserId/123")

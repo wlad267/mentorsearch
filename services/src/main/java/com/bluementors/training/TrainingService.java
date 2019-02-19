@@ -1,10 +1,13 @@
 package com.bluementors.training;
 
+import com.bluementors.exception.BusinessException;
 import com.bluementors.mentor.Mentor;
 import com.bluementors.mentor.MentorService;
+import com.bluementors.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,13 @@ public class TrainingService {
     @Autowired
     private SkillService skillService;
 
-    public List<Training> findTrainigsForSkill(Long skillId) {
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TrainingRepository trainingRepository;
+
+    public List<Training> findTrainingsForSkill(Long skillId) {
 
         Skill theSkill = skillService.fetchSkill(skillId);
 
@@ -37,4 +46,28 @@ public class TrainingService {
         return trainings;
     }
 
+    public Training bookTraining(@NotNull Long userId, @NotNull Long skillId, @NotNull Long calendarId) {
+
+        Training training = new Training();
+
+        Mentor mentor = mentorService.searchByCalendarId(calendarId);
+
+        //TODO move to calendar service
+        training.setCalendar(mentor.getCalendar()
+                .stream()
+                .filter(m -> m.getId().equals(calendarId))
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("Something got fishy -> provided calendar id not found"))
+        );
+
+        training.setMentor(mentor);
+
+        training.setSkill(skillService.fetchSkill(skillId));
+
+        training.setUser(userService.findById(userId));
+
+        training.setStatus(TrainingStatus.NO_STARTED);
+
+        return trainingRepository.save(training);
+    }
 }

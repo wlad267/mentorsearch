@@ -10,24 +10,24 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/mentors")
+@RequestMapping("api/mentors")
 public class MentorResource {
 
     @Autowired
     private MentorService mentorService;
 
-    @GetMapping("/fetchAll")
+    @GetMapping("fetchAll")
     public List<Mentor> all(){
         return mentorService.listMentors();
     }
 
-    @GetMapping("/byUserId/{userId}")
+    @GetMapping("byUserId/{userId}")
     @RolesAllowed({AppRoles.Names.USER})
     public Mentor fetchMentorByuserId(@PathVariable("userId") Long userId) {
-        return mentorService.fetchByUserId(userId);
+        return mentorService.findByUserId(userId);
     }
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public Mentor register(@RequestBody MentorRegistrationRequest request) {
         return this.mentorService.register(request.userId,
                 request.skills,
@@ -35,12 +35,12 @@ public class MentorResource {
                 request.linkedInUrl);
     }
 
-    @GetMapping("/cancel/{uid}")
+    @GetMapping("cancel/{uid}")
     public ResponseEntity cancelMentoring(@PathVariable("uid") Long uid) {
         return ResponseEntity.ok(mentorService.cancelMentoring(uid));
     }
 
-    @PostMapping("/{mentorId}/calendar/save")
+    @PostMapping("{mentorId}/calendar/save")
     public ResponseEntity saveCalendar(@PathVariable("mentorId") Long mentorId, @RequestBody List<Calendar> calendar) {
         return ResponseEntity.ok(mentorService.updateCalendar(mentorId, calendar));
     }

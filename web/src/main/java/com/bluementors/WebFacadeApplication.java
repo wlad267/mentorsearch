@@ -14,8 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableJpaRepositories(basePackages="com.bluementors")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
-public class App {
+public class WebFacadeApplication {
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(WebFacadeApplication.class, args);
     }
 }

@@ -14,4 +14,6 @@ public interface MentorRepository extends JpaRepository<Mentor, Long> {
     Mentor cancelMentorig(@Param("uid") Long uid);
 
     List<Mentor> findBySkillsId(Long id);
+
+    Mentor findByCalendarId(Long id);
 }

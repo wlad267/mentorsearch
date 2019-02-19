@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/registration",
+@RequestMapping(value = "api/registration",
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE)
 public class RegistrationResource {
@@ -45,7 +45,7 @@ public class RegistrationResource {
         return ResponseEntity.ok(registrationRequest);
     }
 
-    @GetMapping(value = "/confirmation/{requestUuid}",
+    @GetMapping(value = "confirmation/{requestUuid}",
             produces = MediaType.ALL_VALUE,
             consumes = MediaType.ALL_VALUE)
     public ResponseEntity registrationConfirmation(@PathVariable("requestUuid") String uuid) {

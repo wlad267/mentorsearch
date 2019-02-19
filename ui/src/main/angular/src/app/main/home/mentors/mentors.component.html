@@ -47,7 +47,11 @@
       </p-accordionTab>
 
       <p-accordionTab header="Calendar">
-        <app-mentor-calendar [calendar]="calendar"></app-mentor-calendar>
+        <app-mentor-calendar
+          [componentMode]="'mentor-mode'"
+          [calendar]="calendar"
+          (calendarEvents)="updateMenringCalendar($event)">
+        </app-mentor-calendar>
       </p-accordionTab>
 
       <p-accordionTab header="History">

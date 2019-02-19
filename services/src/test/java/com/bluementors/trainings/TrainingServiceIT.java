@@ -56,7 +56,7 @@ public class TrainingServiceIT extends IntegrationTest {
                 TrainingData.trainingCalendar());
 
 
-        List<Training> firstSkillTrainings = trainingService.findTrainigsForSkill(theFirstSkill.getId());
+        List<Training> firstSkillTrainings = trainingService.findTrainingsForSkill(theFirstSkill.getId());
 
         assertThat(firstSkillTrainings)
                 .isNotNull()
@@ -92,12 +92,39 @@ public class TrainingServiceIT extends IntegrationTest {
                 TrainingData.trainingCalendar());
 
 
-        List<Training> firstSkillTrainings = trainingService.findTrainigsForSkill(theSecondSkill.getId());
+        List<Training> firstSkillTrainings = trainingService.findTrainingsForSkill(theSecondSkill.getId());
 
         assertThat(firstSkillTrainings)
                 .isNotNull()
                 .isEmpty();
     }
+
+    @Test
+    public void register_training() {
+        // 1. Register skills
+        List<Skill> skills = skillRepository.saveAll(TrainingData.trainingSkills());
+
+        // 2. select different skills for mentoring
+        Skill theFirstSkill = skills.get(0);
+        Skill theSecondSkill = skills.get(1);
+        Skill theThirdSkill = skills.get(2);
+
+        //Register 2 mentors on the same skill.
+        Mentor mentorJohn = this.register(UserData.JohnMaxwell(),
+                Arrays.asList(theFirstSkill),
+                Arrays.asList(TrainingData.midYearTrainingSection(), TrainingData.summerCampCoding()));
+
+        User robin = userService.register(UserData.RobinWilliams());
+
+        Training registeredTraining = trainingService.bookTraining(robin.getId(),
+                mentorJohn.getSkills().get(0).getId(),
+                mentorJohn.getCalendar().get(0).getId());
+
+        assertThat(registeredTraining)
+                .isNotNull();
+
+    }
+
 
     private Mentor register(User user, List<Skill> skills, List<Calendar> calendar) {
         // 1. register a user
@@ -117,4 +144,5 @@ public class TrainingServiceIT extends IntegrationTest {
 
         return mentor;
     }
+
 }

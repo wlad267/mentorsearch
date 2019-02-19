@@ -12,7 +12,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skills")
+@RequestMapping("api/skills")
 public class SkillsResource {
 
     private static Logger logger = LoggerFactory.getLogger(SkillsResource.class);
@@ -20,7 +20,7 @@ public class SkillsResource {
     @Autowired
     private SkillService skillService;
 
-    @GetMapping("/all")
+    @GetMapping("all")
     public List<Skill> all() {
         logger.info("listing fetchAll skills");
         return skillService.fetchAllSkills();

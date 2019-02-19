@@ -24,7 +24,7 @@ import static com.bluementors.AppCodes.APP_ERROR;
 import static java.util.Objects.isNull;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("api/auth")
 public class AAResource {
 
     private Logger logger = LoggerFactory.getLogger(AAResource.class);

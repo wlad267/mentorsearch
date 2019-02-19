@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FullCalendar } from 'primeng/fullcalendar';
 import { MentorService } from '../mentor.service';
 import { Calendar } from '../../../mentorsearch/calendar.model';
@@ -12,20 +12,59 @@ export class MentorCalendarComponent implements OnInit {
 
     @ViewChild('calendar') fl: FullCalendar;
 
+    /**
+     * Caching the input change via a setter adn coverne to FullCallendar model
+     */
     @Input('calendar') set calendarSetter(calendar: Calendar[]) {
         if (calendar) {
             for (let cal of calendar) {
-                this.fl.calendar.addEvent({start: cal.startTime, end: cal.endTime, title: cal.title});
+                this.fl.calendar.addEvent({ start: cal.startTime, end: cal.endTime, title: cal.title, calendar_id: cal.id });
             }
         }
 
     }
 
+    /**
+     * Calendar component has diffrent behaviors:
+     * 
+     * 1. mentor-mode
+     *     Used for mentoring editing his availability. 
+     *     In his mode the cladar will allow the mentor to navigate to day view and add/delete slices 
+     * 
+     * 2. trainee-mode 
+     *     Used for trainee selecting desired mentoring sessions. 
+     *     Is is not allowing the day nor weekly view. 
+     *     Allows only secting future mentoring trainings.
+     * 
+     * 3. view-mode 
+     *    Just show callendar montly view.
+     *    No selections.
+     */
+    @Input() componentMode: string;
+
+    /**
+     * Whenever calendar hour is selected the component will propagate the change to any parent listening for the event
+     */
+    @Output()
+    addCaledar: EventEmitter<Calendar> = new EventEmitter();
+
+    /**
+     * Whenevr a calendar entry is selected the component will propagate the change to any parent listening for the selection
+     */
+    @Output()
+    selectedCalendar: EventEmitter<Calendar> = new EventEmitter();
+
+    /**
+     * Whenver there are changes in the events propagate changed collection
+     */
+    @Output()
+    calendarEvents: EventEmitter<Calendar[]> = new EventEmitter<Array<Calendar>>();
+
     events: any[];
 
     options: any;
 
-    constructor(private mentorService: MentorService) { }
+    constructor() { }
 
     ngOnInit() {
 
@@ -36,34 +75,59 @@ export class MentorCalendarComponent implements OnInit {
             header: {
                 left: 'prev,next',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: this.componentMode === 'mentor-mode' ? 'month,agendaWeek,agendaDay' : 'month',
             },
-            editable: true,
+            editable: this.componentMode !== 'view-mode',
 
             dateClick: (e) => {
-                console.log('calendar click:' + e);
-                switch (e.view.type) {
-                    case "month":
-                        this.fl.calendar.changeView('agendaDay', e.date);
-                        break;
-                    case "agendaWeek":
-                        break;
-                    case "agendaDay":
-                        e.title = 'Mentoring availability added';
-                        this.fl.calendar.addEvent(e);
-                        this.updateMenringCalendar(this.parseCalendarEvents(e.view.calendar.getEvents()));
-                        break;
+                if (this.componentMode === 'mentor-mode') {
+                    switch (e.view.type) {
+                        case "month":
+                            this.fl.calendar.changeView('agendaDay', e.date);
+                            break;
+                        case "agendaWeek":
+                            break;
+                        case "agendaDay":
+
+                            e.title = 'Mentoring availability added';
+                            this.fl.calendar.addEvent(e);
+
+                            //propagate the entire calendar selection 
+                            this.calendarEvents.emit(this.parseCalendarEvents(e.view.calendar.getEvents()));
+
+                            let calendar = new Calendar();
+                            calendar.startTime = new Date(e.dateStr);
+                            calendar.endTime = new Date(e.dateStr)
+                            calendar.endTime.setHours(calendar.endTime.getHours() + 1);
+                            //propagate just the new added calendar
+                            this.addCaledar.emit(calendar);
+
+
+                            break;
+                    }
                 }
             },
+
             eventClick: (e) => {
-                if (e.view.type === 'agendaDay') {
-                    console.log('removing envent ' + e.id + ' - ' + e.title);
-                    e.event.remove();
-                    this.updateMenringCalendar(this.parseCalendarEvents(e.view.calendar.getEvents()));
-                    return;
+                switch (this.componentMode) {
+                    case 'mentor-mode':
+                        if (e.view.type === 'agendaDay') {
+                            console.log('removing envent ' + e.id + ' - ' + e.title);
+                            e.event.remove();
+                            this.calendarEvents.emit(this.parseCalendarEvents(e.view.calendar.getEvents()));
+                            return;
+                        } else {
+                            this.fl.calendar.changeView('agendaDay', e.date);
+                        }
+                    break;
+
+                    case 'trainee-mode':
+                    break;
+
                 }
 
-                this.fl.calendar.changeView('agendaDay', e.date);
+                let calendar = this.parseClendarEvent(e.event);
+                this.selectedCalendar.emit(calendar);
 
             }
         };
@@ -72,12 +136,10 @@ export class MentorCalendarComponent implements OnInit {
 
     private parseCalendarEvents(events: any[]): Calendar[] {
         let calendar = [];
+
         for (let event of events) {
-            let c = new Calendar();
-            c.startTime = new Date(event.instance.range.start);
-            c.endTime = new Date(event.instance.range.end);
-            c.title = event.title;
-            calendar.push(c);
+            let calendarEntry = this.parseClendarEvent(event);
+            calendar.push(calendarEntry);
         }
 
         console.log('calendar events:' + JSON.stringify(calendar));
@@ -85,11 +147,13 @@ export class MentorCalendarComponent implements OnInit {
         return calendar;
     }
 
-    private updateMenringCalendar(calendar: Calendar[]) {
-        let mentor = JSON.parse(window.sessionStorage.getItem('mentor'));
-        this.mentorService.updateCallendar(mentor.id, calendar).subscribe(mentor => {
-            console.log('saved mentor' + JSON.stringify(mentor));
-        });
+    private parseClendarEvent(event: any): Calendar {
+        let calendar = new Calendar();
+        calendar.id = event.extendedProps.calendar_id;
+        calendar.startTime = new Date(event.instance.range.start);
+        calendar.endTime = new Date(event.instance.range.end);
+        calendar.title = event.title;
+        return calendar;
     }
 
 }

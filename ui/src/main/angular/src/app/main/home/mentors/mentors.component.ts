@@ -51,4 +51,11 @@ export class MentorsComponent implements OnInit {
     this.display = true;
   }
 
+  private updateMenringCalendar(calendar: Calendar[]) {
+    let mentor = JSON.parse(window.sessionStorage.getItem('mentor'));
+    this.mentorService.updateCallendar(mentor.id, calendar).subscribe(mentor => {
+        console.log('saved mentor' + JSON.stringify(mentor));
+    });
+}
+
 }

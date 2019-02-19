@@ -24,13 +24,17 @@ export class MentorService {
   calncelMentoring(userId){
     return this.httpClient.post('api/mentors/cance/{userId}',{});
   }
-
+r
   updateCallendar(mentorId: number, calendar: Calendar[]) : Observable<any> {
     return this.httpClient.post(`api/mentors/${mentorId}/calendar/save`, calendar);
   }
 
   getAvailableMentorsBySkillId(skillId: number){
-    return this.httpClient.get(`api/trainings/skill/{$skillId}`);
+    return this.httpClient.get(`api/trainings/search/skill/${skillId}`);
+  }
+
+  bookTraining(userId: number, skillId: number, calendarId: number){
+    return this.httpClient.post(`api/trainings/book/${skillId}/${userId}/${calendarId}`, {});
   }
 
 }

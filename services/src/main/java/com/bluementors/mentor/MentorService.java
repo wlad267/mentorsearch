@@ -29,10 +29,17 @@ public class MentorService {
         return mentorRepository.findAll();
     }
 
-    public Mentor fetchByUserId(Long userId) {
+    public Mentor findByUserId(Long userId) {
         User user = userService.findById(userId);
-
         return user.getMentor();
+    }
+
+    public List<Mentor> searchBySkill(Long skillId) {
+        return mentorRepository.findBySkillsId(skillId);
+    }
+
+    public Mentor searchByCalendarId(Long calendarId) {
+        return mentorRepository.findByCalendarId(calendarId);
     }
 
     @Transactional
@@ -79,7 +86,5 @@ public class MentorService {
         return mentorRepository.save(mentor);
     }
 
-    public List<Mentor> searchBySkill(Long skillId) {
-        return mentorRepository.findBySkillsId(skillId);
-    }
+
 }
