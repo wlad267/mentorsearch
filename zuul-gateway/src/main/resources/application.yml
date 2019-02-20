@@ -1,0 +1,4 @@
+# Allow cookies and headers to pass though Zuul
+# Default the sensitiveHeaders (Cookie,Set-Cookie,Authorization) will filter JWT cookie
+zuul:
+  sensitiveHeaders:

@@ -1,43 +1,41 @@
-<p>This section is designated for learning.
-  <br>Learn. Learn. Learn ... make the plannet smarter.
-</p>
+<div class="m-3">
+  <br>
+  <p>This section is designated for learning.
+    <br>Learn. Learn. Learn ... make the plannet smarter.
+  </p>
+  <br>
 
-<div *ngIf="show=='user_calendar'">
-  <button (click)="show = 'training_picker'">Book New Trainings</button>
-  <app-mentor-calendar
-    [componentMode]="'view-mode'"
-    [(calendar)]="userCalendar">
-  </app-mentor-calendar>
-</div>
-
-<div *ngIf="show=='training_picker'">
-  Book a training:
-  <div class="container">
-    <div class="row">
-      <div class="col_centered">
-        <p-steps [model]="steps" [readonly]="false" [(activeIndex)]="activeStep"></p-steps>
-      </div>
-    </div>
-  </div>
-
-  <app-skill-list *ngIf="activeStep==0"
-                  componentMode="select"
-                  [(skills)]="skills"
-                  disabled=false
-                  (skillActivation)="selectSkillForTrainig($event)">
-  </app-skill-list>
-
-  <div *ngIf="activeStep==1">
-    <app-mentor-calendar
-      (selectedCalendar)="selecteTraining($event)"
-      [componentMode]="'trainee-mode'"
-      [(calendar)]="availabaleMentorsCalendar">
+  <div *ngIf="show=='user_calendar'">
+    <button class="btn btn-primary" (click)="show = 'training_picker'">Book New Trainings</button>
+    <app-mentor-calendar [componentMode]="'view-mode'" [(calendar)]="userCalendar">
     </app-mentor-calendar>
   </div>
 
-  <div *ngIf="activeStep==2">
-    <p>Cosinder donate 1$ to our smarter blue mentoring plannet.</p>
-    <button class="btn btn-primary" (click)="restartTrainingPiker()">Add more learning
-    </button>
+  <div *ngIf="show=='training_picker'">
+    Book a training:
+    <div class="container">
+      <div class="row">
+        <div class="col_centered">
+          <p-steps [model]="steps" [readonly]="false" [(activeIndex)]="activeStep"></p-steps>
+        </div>
+      </div>
+    </div>
+
+    <app-skill-list *ngIf="activeStep==0" componentMode="select" [(skills)]="skills" disabled=false
+                    (skillActivation)="selectSkillForTrainig($event)">
+    </app-skill-list>
+
+    <div *ngIf="activeStep==1">
+      <app-mentor-calendar (selectedCalendar)="selecteTraining($event)" [componentMode]="'trainee-mode'"
+                           [(calendar)]="availabaleMentorsCalendar">
+      </app-mentor-calendar>
+    </div>
+
+    <div *ngIf="activeStep==2">
+      <p>Cosinder donate 1$ to our smarter blue mentoring plannet.</p>
+      <button class="btn btn-primary" (click)="restartTrainingPiker()">Add more learning
+      </button>
+    </div>
   </div>
+
 </div>

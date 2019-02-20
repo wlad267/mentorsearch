@@ -70,12 +70,12 @@ export class MentorCalendarComponent implements OnInit {
 
         this.options = {
             defaultDate: Date(),
-            selectable: true,
-
+            selectable: this.componentMode !== 'view-mode',
             header: {
                 left: 'prev,next',
                 center: 'title',
-                right: this.componentMode === 'mentor-mode' ? 'month,agendaWeek,agendaDay' : 'month',
+                right: this.componentMode === 'mentor-mode' ? 'month,agendaWeek,agendaDay' : 
+                            this.componentMode === 'view-mode' ? undefined : 'month',
             },
             editable: this.componentMode !== 'view-mode',
 
