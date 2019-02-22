@@ -106,8 +106,6 @@ public class TrainingServiceIT extends IntegrationTest {
 
         // 2. select different skills for mentoring
         Skill theFirstSkill = skills.get(0);
-        Skill theSecondSkill = skills.get(1);
-        Skill theThirdSkill = skills.get(2);
 
         //Register 2 mentors on the same skill.
         Mentor mentorJohn = this.register(UserData.JohnMaxwell(),

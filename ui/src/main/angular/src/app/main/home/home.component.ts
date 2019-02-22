@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   onMentors: any;
   onUsers: any;
   onTrainings: any;
-  onDonate: any;
+  onStatistics: any;
   
 
   constructor(private authenticationSevice: AuthenticationService,
@@ -54,6 +54,10 @@ export class HomeComponent implements OnInit {
                 router.navigate(['/home/trainings'] );
               };
 
+              this.onStatistics = function(event) {
+                router.navigate(['/home/statistics'] );
+              };
+
              }
 
   ngOnInit() {
@@ -68,7 +72,7 @@ export class HomeComponent implements OnInit {
       //only for admins
       {label: 'Users', icon: 'fa fa-fw fa-book', command: this.onUsers},
       {label: 'Your Trainings', icon: 'fa fa-fw fa-book', command: this.onTrainings},
-      {label: 'Statistics', icon: 'fa fa-fw fa-twitter', command: this.onDonate}
+      {label: 'Statistics', icon: 'fa fa-fw fa-twitter', command: this.onStatistics}
     ];
 
     this.activTabMenuItem = this.tabMenuItems[0];

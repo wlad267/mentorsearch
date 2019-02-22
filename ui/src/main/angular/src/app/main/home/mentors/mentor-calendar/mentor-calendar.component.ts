@@ -16,9 +16,15 @@ export class MentorCalendarComponent implements OnInit {
      * Caching the input change via a setter adn coverne to FullCallendar model
      */
     @Input('calendar') set calendarSetter(calendar: Calendar[]) {
-        if (calendar) {
+        if (calendar) {           
             for (let cal of calendar) {
-                this.fl.calendar.addEvent({ start: cal.startTime, end: cal.endTime, title: cal.title, calendar_id: cal.id });
+                this.fl.calendar.addEvent(
+                    { start: cal.startTime, 
+                        end: cal.endTime, 
+                        title: cal.title, 
+                        calendar_id: cal.id,
+                        color : this.getEventColor(cal)
+                    });
             }
         }
 
@@ -91,7 +97,7 @@ export class MentorCalendarComponent implements OnInit {
 
                             e.title = 'Mentoring availability added';
                             this.fl.calendar.addEvent(e);
-
+                          
                             //propagate the entire calendar selection 
                             this.calendarEvents.emit(this.parseCalendarEvents(e.view.calendar.getEvents()));
 
@@ -99,6 +105,9 @@ export class MentorCalendarComponent implements OnInit {
                             calendar.startTime = new Date(e.dateStr);
                             calendar.endTime = new Date(e.dateStr)
                             calendar.endTime.setHours(calendar.endTime.getHours() + 1);
+                             
+                            e.color = this.getEventColor(calendar);
+
                             //propagate just the new added calendar
                             this.addCaledar.emit(calendar);
 
@@ -154,6 +163,18 @@ export class MentorCalendarComponent implements OnInit {
         calendar.endTime = new Date(event.instance.range.end);
         calendar.title = event.title;
         return calendar;
+    }
+
+    private colos = {RED: '#ff8282', BLUE:'#82beff', GREEN:'#82ffad', PAST_EVENT_COLOR : '#96a392'};
+
+    private getEventColor(event: any){
+        const  now = new Date();
+        if (new Date(event.endTime)< now){
+            return this.colos.RED;   
+       }else if (new Date(event.startTime)< now){
+           return  this.colos.BLUE;   
+       }
+       return this.colos.GREEN;
     }
 
 }

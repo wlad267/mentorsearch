@@ -55,6 +55,8 @@ export class MentorsComponent implements OnInit {
     let mentor = JSON.parse(window.sessionStorage.getItem('mentor'));
     this.mentorService.updateCallendar(mentor.id, calendar).subscribe(mentor => {
         console.log('saved mentor' + JSON.stringify(mentor));
+        this.user.mentor = mentor;
+        localStorage.setItem('currentUser', JSON.stringify(this.user));       
     });
 }
 

@@ -8,6 +8,7 @@ import { SkillsComponent } from './main/home/skills/skills.component';
 import { MentorsComponent } from './main/home/mentors/mentors.component';
 import { UsersComponent } from './main/home/users/users.component';
 import { TrainingsComponent } from './main/home/trainings/trainings.component';
+import { StatisticsComponent } from './main/home/statistics/statistics.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard],
@@ -16,6 +17,7 @@ const appRoutes: Routes = [
     { path: 'mentors', component: MentorsComponent },
     { path: 'users', component: UsersComponent },
     { path: 'trainings', component: TrainingsComponent },
+    { path: 'statistics', component: StatisticsComponent },
     { path: '**', redirectTo: 'skills' }
     ] 
   },

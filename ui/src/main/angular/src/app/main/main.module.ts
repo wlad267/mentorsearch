@@ -33,10 +33,12 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {AccordionModule} from 'primeng/accordion';
 import {RatingModule} from 'primeng/rating';
 import {StepsModule} from 'primeng/steps';
+import { StatisticsComponent } from './home/statistics/statistics.component';
 
+import {ChartModule} from 'primeng/chart';
 
 @NgModule({
-  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent, MentorCalendarComponent],
+  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent, MentorCalendarComponent, StatisticsComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -59,7 +61,8 @@ import {StepsModule} from 'primeng/steps';
     ScrollPanelModule,
     AccordionModule,
     RatingModule,
-    StepsModule
+    StepsModule,
+    ChartModule
   ],
   exports: [HomeComponent, RouterModule],
   providers: [UserService, SkillsService, MentorService]

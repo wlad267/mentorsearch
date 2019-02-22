@@ -12,7 +12,7 @@
   </div>
 
   <div *ngIf="show=='training_picker'">
-    Book a training:
+    <h3>To book new training follow the instructions:</h3>
     <div class="container">
       <div class="row">
         <div class="col_centered">
@@ -21,11 +21,15 @@
       </div>
     </div>
 
-    <app-skill-list *ngIf="activeStep==0" componentMode="select" [(skills)]="skills" disabled=false
-                    (skillActivation)="selectSkillForTrainig($event)">
-    </app-skill-list>
+    <div *ngIf="activeStep==0">
+      <h4>Choose the skill you are intrested in</h4>
+      <app-skill-list componentMode="select" [(skills)]="skills" disabled=false
+                      (skillActivation)="selectSkillForTrainig($event)">
+      </app-skill-list>
+    </div>
 
     <div *ngIf="activeStep==1">
+      <h4>Choose the mentor you want</h4>
       <app-mentor-calendar (selectedCalendar)="selecteTraining($event)" [componentMode]="'trainee-mode'"
                            [(calendar)]="availabaleMentorsCalendar">
       </app-mentor-calendar>
