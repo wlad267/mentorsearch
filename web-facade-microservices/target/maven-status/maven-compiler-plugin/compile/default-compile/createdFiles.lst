@@ -1,0 +1,6 @@
+com\bluementors\JwtReader.class
+com\bluementors\skills\SkillServiceFeignClient.class
+com\bluementors\security\aa\AAResource.class
+com\bluementors\skills\SkillsResource.class
+com\bluementors\security\aa\AAServiceFeignClient.class
+com\bluementors\MicroservicesWebFacadeApplication.class

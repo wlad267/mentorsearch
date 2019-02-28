@@ -26,12 +26,14 @@
 
 	<modules>
 		<module>services</module>
-        <module>web</module>
+		<module>web-services</module>
+		<module>web-facade-microservices</module>
         <module>ui</module>
 		<module>eureka-service</module>
-		<module>microservices</module>
+		<module>micro-services</module>
 		<module>zuul-gateway</module>
 		<module>domain-model</module>
+		<module>commons</module>
 	</modules>
 
 </project>

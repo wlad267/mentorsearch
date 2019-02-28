@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://localhost:8091/mentor-search/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

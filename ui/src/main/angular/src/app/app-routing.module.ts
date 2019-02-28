@@ -9,6 +9,7 @@ import { MentorsComponent } from './main/home/mentors/mentors.component';
 import { UsersComponent } from './main/home/users/users.component';
 import { TrainingsComponent } from './main/home/trainings/trainings.component';
 import { StatisticsComponent } from './main/home/statistics/statistics.component';
+import { DonateeComponent } from './main/home/donatee/donatee.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard],
@@ -18,11 +19,13 @@ const appRoutes: Routes = [
     { path: 'users', component: UsersComponent },
     { path: 'trainings', component: TrainingsComponent },
     { path: 'statistics', component: StatisticsComponent },
+    { path: 'donate', component: DonateeComponent },
     { path: '**', redirectTo: 'skills' }
     ] 
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+ 
   { path: '**', redirectTo: 'home' }
 ];
 

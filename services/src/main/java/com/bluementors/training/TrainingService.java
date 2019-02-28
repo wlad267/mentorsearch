@@ -71,8 +71,5 @@ public class TrainingService {
         return trainingRepository.save(training);
     }
 
-    public List<Training> findPlannedTrainigs(Long userId) {
 
-        return null;
-    }
 }

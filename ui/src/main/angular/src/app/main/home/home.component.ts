@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
    */
   tabMenuItems: MenuItem[];
   activTabMenuItem: MenuItem;
+  showTabMenu = true;
 
   private user: User
   
@@ -84,14 +85,22 @@ export class HomeComponent implements OnInit {
  
   takeAction(action: string){
     console.log('tacking action ' + action);
-    this.router.navigate([action], {relativeTo: this.route});
-    this.displayMenu = false;    
+    
+    this.displayMenu = false;   
+    this.showTabMenu = true;
+    
     switch (action){
       case 'skills':
          this.activTabMenuItem = this.tabMenuItems[0];
+         this.router.navigate([action], {relativeTo: this.route});
       break;
       case 'trainings':
-        this.activTabMenuItem = this.tabMenuItems[3];
+        this.activTabMenuItem = this.tabMenuItems[3]
+        this.router.navigate([action], {relativeTo: this.route});
+      break;
+      case 'donate':
+        this.router.navigate([action], {relativeTo: this.route});
+        this.showTabMenu = false;
       break;
       default:
         this.activTabMenuItem = this.tabMenuItems[0];

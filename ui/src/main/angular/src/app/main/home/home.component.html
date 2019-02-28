@@ -22,7 +22,7 @@
       <br>
       <button class="btn"
               [class.btn-primary]="mo3" (mouseover)="mo3=true" (mouseout)="mo3=false"
-              (click)="takeAction('trainings')">Mentoring
+              (click)="takeAction('donate')">Donate
       </button>
       <br>
       <button class="btn"
@@ -43,11 +43,10 @@
     Menu>>
   </button>
 
-  <div class="row">
+  <div *ngIf="showTabMenu" class="row">
     <div class="col_centered">
       <p-tabMenu class="ui-tabmenu-nav" [model]="tabMenuItems" [activeItem]="activTabMenuItem"></p-tabMenu>
     </div>
-
   </div>
 
 

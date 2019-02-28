@@ -37,8 +37,12 @@ import { StatisticsComponent } from './home/statistics/statistics.component';
 
 import {ChartModule} from 'primeng/chart';
 
+import { NgxPayPalModule } from 'ngx-paypal';
+import { DonateeComponent } from './home/donatee/donatee.component';
+
+
 @NgModule({
-  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent, MentorCalendarComponent, StatisticsComponent],
+  declarations: [HomeComponent, SkillsComponent, MentorsComponent, TrainingsComponent, UsersComponent, MentorRegistrationComponent, SkillListComponent, EditSkillComponent, MentoringSkillsFormControlComponent, MentorCalendarComponent, StatisticsComponent, DonateeComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -62,7 +66,8 @@ import {ChartModule} from 'primeng/chart';
     AccordionModule,
     RatingModule,
     StepsModule,
-    ChartModule
+    ChartModule,
+    NgxPayPalModule
   ],
   exports: [HomeComponent, RouterModule],
   providers: [UserService, SkillsService, MentorService]
