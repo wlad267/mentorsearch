@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MessagingComponent } from './messaging.component';
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import { TabMenuModule } from 'primeng/tabmenu';
 
 describe('MessagingComponent', () => {
   let component: MessagingComponent;
@@ -8,7 +11,9 @@ describe('MessagingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MessagingComponent ]
+      declarations: [ MessagingComponent ],
+      //imports: [ReactiveFormsModule, FormsModule,  RouterTestingModule, HttpClientTestingModule],
+      imports: [MessageModule, MessagesModule]
     })
     .compileComponents();
   }));

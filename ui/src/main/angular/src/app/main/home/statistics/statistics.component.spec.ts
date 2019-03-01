@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatisticsComponent } from './statistics.component';
+import { ChartModule } from 'primeng/chart';
 
 describe('StatisticsComponent', () => {
   let component: StatisticsComponent;
@@ -8,7 +9,8 @@ describe('StatisticsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatisticsComponent ]
+      declarations: [ StatisticsComponent ],
+      imports: [ChartModule]
     })
     .compileComponents();
   }));
@@ -16,7 +18,9 @@ describe('StatisticsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StatisticsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    setTimeout(function () {
+      fixture.detectChanges();
+    }, 2000);
   });
 
   it('should create', () => {

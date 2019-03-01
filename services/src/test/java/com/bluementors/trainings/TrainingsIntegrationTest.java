@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TrainingsIntegrationTest extends IntegrationTest {
+public abstract class TrainingsIntegrationTest extends IntegrationTest {
 
     @Autowired
     protected UserService userService;
 
     @Autowired
     protected MentorService mentorService;
+
 
     protected Mentor register(User user, List<Skill> skills, List<Calendar> calendar) {
         // 1. register a user
