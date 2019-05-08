@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'MentorSearch';
+  title = 'Blue Mentor Search';
   blocked: false;
 }

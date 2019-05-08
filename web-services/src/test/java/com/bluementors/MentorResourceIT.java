@@ -61,7 +61,6 @@ public class MentorResourceIT {
     @Before
     public void setup() {
 
-        //this.mockMvc = MockMvcBuilders.standaloneSetup(mentorResource).build();
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
                 .addFilters(this.springSecurityFilterChain).build();
 

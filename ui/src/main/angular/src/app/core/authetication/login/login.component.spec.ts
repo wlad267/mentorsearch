@@ -94,6 +94,11 @@ describe('LoginComponent', () => {
     let button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
 
+    // We set the expectations for the HttpClient mock
+    const req = httpMock.expectOne(`api/auth/login`);
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual({ email: 'admin@bluementors.com', password: '123456' });
+
     expect(component.loginForm.valid).toBeTruthy();
   }));
 

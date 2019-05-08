@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-  <p-sidebar [(visible)]="displayMenu">
+  <p-sidebar [(visible)]="displayMenu" [autoZIndex]=false [baseZIndex]=1000>
     <div class="m-3">
       <h3>Menu</h3>
       <div class="m-4">
@@ -38,7 +38,8 @@
           (mouseover)="displayMenu = true"
           pButton
           icon="pi pi-check" iconPos="left"
-          label="Show" class="btn btn-link" style="position: absolute; top: 0">
+          label="Show" class="btn btn-link"
+          style="position: fixed; top: 0">
     <img src="assets/menu.png" style="width: 30px">
     Menu>>
   </button>

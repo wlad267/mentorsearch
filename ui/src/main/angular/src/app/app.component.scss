@@ -1,0 +1,19 @@
+footer {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0.5vh;
+    //background-color: darkslateblue;
+    color: white;
+    text-align: center;
+    h2 {
+        font-size: 18px;
+        font-style: italic;
+    }
+    a , a:hover, a:visited {
+        color: white;
+    }
+    
+ }

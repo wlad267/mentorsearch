@@ -1,6 +1,5 @@
-
-
-<div class="container">
+<div class="container"
+     style="background-color:#e6ecf7; border-radius: 10px; padding: 20px; font-weight: bold;box-shadow:10px 10px 5px grey;">
   <div class="row center">
     <div class="col-sm-8 offset-sm-2">
       <br>
@@ -8,7 +7,7 @@
       <br>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()"  class="form-group">
         <div class="form-group">
-          <label for="email">Emaill</label>
+          <label for="email">Email</label>
           <input type="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && loginForm.controls.email.errors }" />
      
           <div *ngIf="loginForm.controls.email.errors" class="text-danger">
